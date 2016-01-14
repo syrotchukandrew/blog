@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    {% for post in posts %}
+    {% for post in pagination %}
         <article class="post">
             <h2>
                 <a href="{{ path('blog_post', { slug: post.slug }) }}">
@@ -23,5 +23,8 @@
         </article>
         <hr style="color: #0f0f0f; background-color: #0f0f0f; height: 5px">
     {% endfor %}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}
 
