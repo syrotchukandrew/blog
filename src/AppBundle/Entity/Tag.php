@@ -33,13 +33,13 @@ class Tag
 
     /**
      * @var string
-     *
+     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", inversedBy="tags")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      */
     private $posts;
 

@@ -1,0 +1,16 @@
+
+{{ form_start(form, { method: 'POST', action: path('mark_new', { 'postSlug': post.slug }) }) }}
+<fieldset>
+    <legend>Add your mark</legend>
+    {{ form_errors(form) }}
+    <div>
+        {{ form_label(form.mark, 'label.marks', { label_attr: { class: 'hidden' }}) }}
+        {{ form_errors(form.mark) }}
+        {{ form_widget(form.mark) }}
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-primary pull-left" type="submit">Submit</button>
+    </div>
+</fieldset>
+{{ form_end(form) }}

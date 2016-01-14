@@ -10,4 +10,38 @@ namespace AppBundle\Repository;
  */
 class TagRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getTags()
+    {
+        return $this->createQueryBuilder('tag')
+            ->select('tag, post')
+            ->leftJoin('tag.posts', 'post')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getTagWeights($tags)
+    {
+        $tagWeights = array();
+        foreach ($tags as $tag) {
+            $tagWeights[$tag->getTitle()] = count($tag->getPosts());
+        }
+        $max = max($tagWeights);
+        $multiplier = ($max > 5) ? 5 / $max : 1;
+        foreach ($tagWeights as &$tag)
+        {
+            $tag = ceil($tag * $multiplier);
+        }
+        return $tagWeights;
+    }
+
+    public function getTagWithPosts($slug)
+    {
+        return $this->createQueryBuilder('tag')
+            ->select('tag, post')
+            ->where('tag.slug = :slug')
+            ->leftJoin('tag.posts', 'post')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getResult();
+    }
 }

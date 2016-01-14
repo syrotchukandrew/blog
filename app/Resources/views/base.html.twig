@@ -1,13 +1,89 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8"/>
+    <title>{% block title %}My blog{% endblock title %}</title>
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {% endblock stylesheets %}
+    <script>
+        function showResult(str) {
+            if (str.length==0) {
+                document.getElementById("livesearch").innerHTML="";
+                document.getElementById("livesearch").style.border="0px";
+                return;
+            }
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp=new XMLHttpRequest();
+            } else {  // code for IE6, IE5
+                xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange=function() {
+                if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                    document.getElementById("livesearch").innerHTML=xmlhttp.responseText;
+                    document.getElementById("livesearch").style.border="1px solid #A5ACB2";
+                }
+            }
+            xmlhttp.open("GET","/blog/livesearch/"+str,true);
+            xmlhttp.send();
+        }
+    </script>
+</head>
+
+<body>
+
+{% block header %}
+    <header>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{{ path('homepage') }}">My blog</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="{{ path('homepage') }}">Homepage</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+{% endblock header %}
+
+<div class="container body-container">
+    {% block body %}
+        <div class="row">
+            <div id="main" class="col-sm-9">
+                {% block main %}{% endblock main %}
+            </div>
+
+            <div id="sidebar" class="col-sm-3">
+                {% block sidebar %}{{ render(controller('AppBundle:Blog:sidebar')) }}{% endblock sidebar %}
+            </div>
+        </div>
+    {% endblock body %}
+</div>
+
+{% block footer %}
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div id="footer-copyright" class="col-md-6">
+                    <p>&copy; {{ 'now'|date('Y') }} - My blog</p>
+
+                    <p>All right protected</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/app.js') }}"></script>
+{% endblock javascripts %}
+
+</body>
 </html>

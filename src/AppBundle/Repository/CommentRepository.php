@@ -10,4 +10,13 @@ namespace AppBundle\Repository;
  */
 class CommentRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getLatestComments()
+    {
+        return $this->createQueryBuilder('comment')
+            ->select('comment')
+            ->OrderBy('comment.id', 'DESC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult();
+    }
 }

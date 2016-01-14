@@ -7,7 +7,6 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Tag;
-//use Faker\Factory;
 
 class LoadTagData extends AbstractFixture implements OrderedFixtureInterface
 {
@@ -19,17 +18,12 @@ class LoadTagData extends AbstractFixture implements OrderedFixtureInterface
         for ($i = 0; $i < 10; $i++) {
             $tag = new Tag();
             $tag->setTitle($titles[$i]);
-            $tag->setCreated(new \DateTime('now'));
-            $tag->setUpdated(new \DateTime('now'));
-            $tag->setSlug($titles[$i]);
             $manager->persist($tag);
             $manager->flush();
 
             $arrayId = null;
             $arrayId = array();
-
-            while (count($arrayId) < 8) {
-
+            while (count($arrayId) < rand(5,13)) {
                 $id = rand(1, 50);
                 if ((array_search($id, $arrayId)) === false) {
                     $arrayId[] = $id;

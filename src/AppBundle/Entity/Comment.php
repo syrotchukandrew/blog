@@ -2,9 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use Gedmo\Mapping\Annotation as Gedmo;
+
 
 /**
  * Comment
@@ -92,20 +93,6 @@ class Comment
     }
 
     /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return Comment
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
      * Get created
      *
      * @return \DateTime
@@ -113,20 +100,6 @@ class Comment
     public function getCreated()
     {
         return $this->created;
-    }
-
-    /**
-     * Set contentChanged
-     *
-     * @param \DateTime $contentChanged
-     *
-     * @return Comment
-     */
-    public function setContentChanged($contentChanged)
-    {
-        $this->contentChanged = $contentChanged;
-
-        return $this;
     }
 
     /**

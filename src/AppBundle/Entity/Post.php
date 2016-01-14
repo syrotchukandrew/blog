@@ -33,7 +33,7 @@ class Post
 
     /**
      * @var string
-     *
+     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
@@ -45,6 +45,14 @@ class Post
      * @ORM\Column(name="content", type="text")
      */
     private $content;
+
+    /**
+     * @var string
+     * @Assert\NotBlank(message="post.blank_content")
+     * @Assert\Length(min = "10", minMessage = "post.too_short_content")
+     * @ORM\Column(name="shortText", type="text")
+     */
+    private $shortText;
 
     /**
      * @var \DateTime $created
@@ -75,13 +83,19 @@ class Post
     private $marks;
 
     /**
+     * @var float
+     * @ORM\Column(name="rating", type="float", nullable=true)
+     */
+    private $rating;
+
+    /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", orphanRemoval=true)
-     * @ORM\OrderBy({"published" = "DESC"})
+     * @ORM\OrderBy({"created" = "DESC"})
      */
     private $comments;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", mappedBy="posts")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts")
      */
     private $tags;
 
@@ -270,7 +284,26 @@ class Post
         return $this->marks;
     }
 
-    
+    public function addMark($mark)
+    {
+        $this->marks[] = $mark;
+        $count = count($this->marks);
+        $total = 0;
+        for ($i = 0; $i < $count; $i++) {
+            $total = $total + $this->marks[$i];
+        }
+        $this->rating = $total/$count;
+    }
+
+    /**
+     * Get rating
+     *
+     * @return float
+     */
+    public function getRating()
+    {
+        return $this->rating;
+    }
 
     /**
      * Add comment
@@ -338,5 +371,29 @@ class Post
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * Set shortText
+     *
+     * @param string $shortText
+     *
+     * @return Post
+     */
+    public function setShortText($shortText)
+    {
+        $this->shortText = $shortText;
+
+        return $this;
+    }
+
+    /**
+     * Get shortText
+     *
+     * @return string
+     */
+    public function getShortText()
+    {
+        return $this->shortText;
     }
 }

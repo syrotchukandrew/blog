@@ -1,0 +1,86 @@
+<div class="well">
+    <h4>Blog Search</h4>
+    <form>
+        <div class="input-group">
+        <input type="text" class="form-control" onkeyup="showResult(this.value)">
+        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+        </div>
+        <div id="livesearch"></div>
+    </form>
+
+    {#<div class="input-group">
+        <input type="search" class="form-control">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+    </div>#}
+</div>
+
+<div class="well sidebar"><section class="section">
+        <header>
+            <h3>Tag Cloud</h3>
+        </header>
+        <p class="tags">
+            {% for tag, weight in alltags %}
+            <span class="weight-{{ weight }}">
+                <a href="{{ path('tag_post', { slug: tag}) }}">
+                    {{ tag }}
+                </a>
+            </span>
+            {% else %}
+        <p>There are no tags</p>
+        {% endfor %}
+        </p>
+    </section>
+</div>
+
+
+<div class="well sidebar">
+    <section class="section">
+        <header>
+            <h3>The most populate posts</h3>
+        </header>
+        {% for post in populatePosts %}
+            <article class="comment">
+                <header>
+                    <p>{% for i in 1..post.rating|round %}
+                            <span class="glyphicon glyphicon-star"></span>
+                        {% endfor %}
+                        Ratting {{ post.rating|round(1) }}</p>
+                    <p class="small"> created on [<em><time datetime="{{ post.created|date('c') }}">
+                                {{ post.created|date('Y-m-d h:iA') }}</time></em>]</p>
+                    <a href="{{ path('blog_post', { 'slug': post.slug }) }}">
+                        {{ post.title }}
+                    </a>
+                </header>
+            </article>
+        {% endfor %}
+    </section>
+</div>
+
+<div class="well sidebar">
+    <section class="section">
+        <header>
+            <h3>Latest Comments</h3>
+        </header>
+        {% for comment in latestComments %}
+            <article class="comment">
+                <header>
+                    <p class="small"> commented on [<em><time datetime="{{ comment.created|date('c') }}">
+                                {{ comment.created|date('Y-m-d h:iA') }}</time></em>]</p>
+                        <a href="{{ path('blog_post', { 'slug': comment.post.slug }) }}#comment-{{ comment.id }}">
+                            {{ comment.content }}
+                        </a>
+
+                </header>
+            </article>
+        {% endfor %}
+    </section>
+
+</div>
