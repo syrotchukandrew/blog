@@ -1,0 +1,22 @@
+{
+  "name": "blog",
+  "description": "my blog",
+  "main": "index.js",
+  "authors": [
+    "Andrew Syrotchuk"
+  ],
+  "license": "BSD-2-Clause",
+  "moduleType": [],
+  "homepage": "https://github.com/syrotchukandrew/blog",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6"
+  }
+}

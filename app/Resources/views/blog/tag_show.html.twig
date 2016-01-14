@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <h1>{{ tag[0].title }}</h1>
+    <p><span class="glyphicon glyphicon-time"></span> Created on {{ tag[0].created.date|date("d F Y H:i:s") }}
+        {{ tag[0].posts|length }} posts</p>
+
+    {% for post in pagination %}
+            <article class="post">
+                <h2>
+                    <a href="{{ path('blog_post', { slug: post.slug }) }}">
+                        {{ post.title }}
+                    </a>
+                </h2>
+                <p>{% for i in 1..post.rating|round %}
+                        <span class="glyphicon glyphicon-star"></span>
+                    {% endfor %}
+                    Ratting {{ post.rating|round(1) }}</p>
+
+                <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created.date|date("d F Y H:i:s") }} </p>
+
+                <div class="container-fluid">
+                    <img class="img-responsive" src="http://placehold.it/300x200" alt="" style="float: left">
+
+                    <p>{{ post.shortText }}</p>
+                </div>
+            </article>
+            <hr style="color: #0f0f0f; background-color: #0f0f0f; height: 5px">
+    {% endfor %}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
+
+
