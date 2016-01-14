@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * @Route("/blog")
-*/
+ */
 class BlogController extends Controller
 {
     /**
@@ -26,7 +26,7 @@ class BlogController extends Controller
     {
 
         $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->queryLatest();
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $posts,
             $request->query->getInt('page', 1),
@@ -39,9 +39,15 @@ class BlogController extends Controller
     /**
      * @Route("/posts/{slug}", name="blog_post")
      */
-    public function postShowAction(Post $post)
+    public function postShowAction(Post $post, Request $request)
     {
-        return $this->render('blog/post_show.html.twig', array('post' => $post));
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $comments = $post->getComments(),
+            $request->query->getInt('page', 1),
+            5
+        );
+        return $this->render('blog/post_show.html.twig', array('pagination' => $pagination, 'post' => $post));
     }
 
     /**
@@ -107,7 +113,7 @@ class BlogController extends Controller
         $populatePosts = $em->getRepository('AppBundle:Post')->getPopulate();
 
         return $this->render("blog/sidebar.html.twig", array(
-            'latestComments'    => $latestComments,
+            'latestComments' => $latestComments,
             'alltags' => $tagWeights,
             'populatePosts' => $populatePosts
         ));
@@ -116,10 +122,16 @@ class BlogController extends Controller
     /**
      * @Route("/tag/{slug}", name="tag_post")
      */
-    public function tagShowAction($slug)
+    public function tagShowAction($slug, Request $request)
     {
         $tag = $this->getDoctrine()->getRepository('AppBundle:Tag')->getTagWithPosts($slug);
-        return $this->render('blog/tag_show.html.twig', array('tag' => $tag));
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $posts = $tag[0]->getPosts(),
+            $request->query->getInt('page', 1),
+            10
+        );
+        return $this->render('blog/tag_show.html.twig', array('pagination' => $pagination, 'tag' => $tag));
     }
 
     /**

@@ -18,7 +18,7 @@
 
     <h3>{{ post.comments|length }} comments</h3>
 
-    {% for comment in post.comments %}
+    {% for comment in pagination %}
         <div class="row post-comment">
             <h4 class="col-sm-3">
                 <strong>{{ comment.created.date|date("d F Y H:i:s") }}</strong>
@@ -29,6 +29,9 @@
             </div>
         </div>
     {% endfor %}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
 {% endblock %}
 
 

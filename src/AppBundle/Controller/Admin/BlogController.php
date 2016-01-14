@@ -22,11 +22,17 @@ class BlogController extends Controller
      * @Route("/", name="admin_post_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->getPostsWithTags();
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $posts,
+            $request->query->getInt('page', 1),
+            10
+        );
 
-        return $this->render('admin/blog/index.html.twig', array('posts' => $posts));
+        return $this->render('admin/blog/index.html.twig', array('pagination' => $pagination));
     }
 
     /**
