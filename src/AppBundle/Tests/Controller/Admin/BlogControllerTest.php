@@ -16,7 +16,7 @@ class BlogControllerTest extends WebTestCase
         $this->assertContains('q', 'q');
     }
 
-    public function testLogin()
+    public function testCreateTag()
     {
         $client = self::createClient();
         $client->request('GET', '/admin/post/newtag');

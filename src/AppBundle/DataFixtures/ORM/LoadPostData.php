@@ -18,6 +18,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
             static $id = 1;
             $post = new Post();
             $post->setTitle($faker->sentence);
+            $post->setFoto('/images/post/foto'.$id.'.jpg');
             $post->setShortText($faker->sentences(10,true));
             $post->setContent($faker->realText($maxNbChars = 5000, $indexSize = 2));
             $marks = array();
