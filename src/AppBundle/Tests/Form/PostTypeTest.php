@@ -9,6 +9,22 @@ class PostTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {
+        protected function setUp()
+    {
+        parent::setUp();
+
+        $validator = $this->getMock('\Symfony\Component\Validator\Validator\ValidatorInterface');
+        $validator->method('validate')->will($this->returnValue(new ConstraintViolationList()));
+        $formTypeExtension = new FormTypeValidatorExtension($validator);
+        $coreExtension = new CoreExtension();
+
+        $this->factory = Forms::createFormFactoryBuilder()
+            ->addExtensions($this->getExtensions())
+            ->addExtension($coreExtension)
+            ->addTypeExtension($formTypeExtension)
+            ->getFormFactory();
+    }
+
         $formData = array(
             'title' => 'test',
         );
