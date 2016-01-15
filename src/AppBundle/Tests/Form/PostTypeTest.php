@@ -11,7 +11,7 @@ class PostTypeTest extends TypeTestCase
     {
         $formData = array(
             'title' => 'test',
-            'content' => 'Andrew Syrotchuk'
+            'content' => 'Andrew Syrotchuk',
         );
         $form = $this->factory->create(PostType::class);
         $object = new Post();
