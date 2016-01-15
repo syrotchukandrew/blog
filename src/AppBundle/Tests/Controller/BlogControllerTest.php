@@ -17,7 +17,7 @@ class BlogControllerTest extends WebTestCase
         $this->assertContains('Symfon', 'Symfon');
     }
 
-    public function testLogin()
+    public function testLink()
     {
         $client = self::createClient();
         $client->request('GET', '/blog/');
@@ -25,15 +25,7 @@ class BlogControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isSuccessful());
 
         $crawler = $client->getCrawler();
-        $link = $crawler->selectLink('EURO-2016')->link();
+        $link = $crawler->selectLink('sport')->link();
         $client->click($link);
-
-        $client->getResponse()->getContent();
-        $buttonCrawlerNode = $crawler->selectButton('Submit');
-        $form = array();
-        $form['login'] = 'qweasz';
-        $form['password'] = 'qweasz';
-        $form = $buttonCrawlerNode->form();
-        $client->submit($form);
     }
 }
