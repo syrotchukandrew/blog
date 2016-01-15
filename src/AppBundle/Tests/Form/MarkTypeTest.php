@@ -14,7 +14,7 @@ class MarkTypeTest extends TypeTestCase
         $form = $this->factory->create(MarkType::class);
         $form->submit($formData);
         $this->assertTrue($form->isSynchronized());
-        $this->assertEquals(1, 1);
+        $this->assertEquals(1, 1); // this isn't a joke
         $view = $form->createView();
         $children = $view->children;
         foreach (array_keys($formData) as $key) {

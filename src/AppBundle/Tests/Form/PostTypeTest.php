@@ -9,19 +9,19 @@ class PostTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
     {
-        /*$formData = array(
+        $formData = array(
             'title' => 'test',
         );
         $form = $this->factory->create(PostType::class);
         $object = new Post();
         $object->setTitle('test');
         $form->submit($formData);
-        //$this->assertTrue($form->isSynchronized());
+        $this->assertTrue($form->isSynchronized());
         $this->assertEquals($object, $form->getData());
-        $view = $form->createView();
+        /*$view = $form->createView();
         $children = $view->children;
         foreach (array_keys($formData) as $key) {
-            $this->assertArrayHasKey($key, $children);
-        }*/
+            $this->assertArrayHasKey($key, $children);*/
+        }
     }
 }
