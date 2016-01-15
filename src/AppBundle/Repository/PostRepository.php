@@ -38,26 +38,14 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->select('post')
             ->getQuery()
             ->getResult();
-
         $list = "";
         foreach ($posts as $post) {
             $postTitle = $post->getTitle();
-            $postTitle1 = str_replace(" ", "-",$postTitle);
-            $postTitle2 = lcfirst(str_replace(".", "", $postTitle1));
+            $postSlug = $post->getSlug();
             if (stristr($postTitle, $slug)) {
-                if ($list == "") {
-                    $list = "<a href=/blog/posts/" . "$postTitle2" . ">
-                     " . "$postTitle" . "
-                </a>";
-                } else {
-                    $list = $list . "<br /><a href=/blog/posts/" . "$postTitle2" . ">
-                     " . "$postTitle" . "
-                </a>";
-                }
+                    $list = $list ."<a href=/blog/posts/$postSlug>$postTitle</a><br>";
             }
-
         }
-
         return $list;
     }
 

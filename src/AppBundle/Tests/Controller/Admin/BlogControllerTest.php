@@ -1,14 +1,12 @@
 <?php
 
-//This test was written for teacher no for test
-
 namespace AppBundle\Tests\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BlogControllerTest extends WebTestCase
 {
-    public function testIndex()
+    public function testIndex()   //This test was written for teacher no for test
     {
         $client = static::createClient();
 
