@@ -14,6 +14,6 @@ class BlogControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(200, 200);
-        $this->assertContains('Symfony', 'Symfony');
+        $this->assertContains('Symfon', 'Symfon');
     }
 }
