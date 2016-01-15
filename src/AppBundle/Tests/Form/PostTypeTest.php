@@ -7,9 +7,7 @@ use Symfony\Component\Form\Test\TypeTestCase;
 
 class PostTypeTest extends TypeTestCase
 {
-    public function testSubmitValidData()
-    {
-        protected function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -24,6 +22,10 @@ class PostTypeTest extends TypeTestCase
             ->addTypeExtension($formTypeExtension)
             ->getFormFactory();
     }
+
+    public function testSubmitValidData()
+    {
+
 
         $formData = array(
             'title' => 'test',
