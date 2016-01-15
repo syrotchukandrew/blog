@@ -1,8 +1,10 @@
 <?php
 namespace Tests\AppBundle\Form\Type;
+
 use AppBundle\Entity\Tag;
 use AppBundle\Form\TagType;
 use Symfony\Component\Form\Test\TypeTestCase;
+
 class TagTypeTest extends TypeTestCase
 {
     public function testSubmitValidData()
