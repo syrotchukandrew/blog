@@ -26,7 +26,7 @@ class PostTypeTest extends TypeTestCase
      * @Assert\NotBlank(message="post.blank_content")
      * @Assert\Length(min = "10", minMessage = "post.too_short_content")
      * @ORM\Column(name="content", type="text")
-     */')
+     */');
         $form->submit($formData);
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($object, $form->getData());
