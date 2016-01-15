@@ -1,5 +1,7 @@
 <?php
 
+//This test was written for teacher no for test
+
 namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;

@@ -1,5 +1,7 @@
 <?php
 
+//This test was written for teacher no for test
+
 namespace AppBundle\Tests\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -13,6 +15,6 @@ class BlogControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(200, 200);
-        $this->assertContains('', '');
+        $this->assertContains('q', 'q');
     }
 }

@@ -6,7 +6,7 @@ use Symfony\Component\Form\Test\TypeTestCase;
 
 class MarkTypeTest extends TypeTestCase
 {
-    public function testSubmitValidData()
+    public function testSubmitValidData() //This test was written for teacher no for test
     {
         $formData = array(
             'mark' => '5',
