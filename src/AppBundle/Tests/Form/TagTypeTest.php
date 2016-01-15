@@ -8,7 +8,7 @@ class TagTypeTest extends TypeTestCase
     public function testSubmitValidData()
     {
         $formData = array(
-            'name' => 'test',
+            'title' => 'test',
         );
         $form = $this->factory->create(TagType::class);
         $object = new Tag();
