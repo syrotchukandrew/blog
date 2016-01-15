@@ -18,10 +18,10 @@ class PostTypeTest extends TypeTestCase
         $form->submit($formData);
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($object, $form->getData());
-        /*$view = $form->createView();
+       /* $view = $form->createView();
         $children = $view->children;
         foreach (array_keys($formData) as $key) {
-            $this->assertArrayHasKey($key, $children);*/
-        }
+            $this->assertArrayHasKey($key, $children);
+        }*/
     }
 }
