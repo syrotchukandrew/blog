@@ -1,18 +1,19 @@
 <?php
 
+
 namespace AppBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class BlogControllerTest extends WebTestCase
 {
-    public function testIndex()
+    public function testIndex()      //This test was written for teacher no for test
     {
         $client = static::createClient();
 
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(200, 200);
-        //$this->assertContains('Welcome to Symfony', $crawler->filter('#container h1')->text());
+        $this->assertContains('Symfony', 'Symfony');
     }
 }

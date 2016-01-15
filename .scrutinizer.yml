@@ -1,0 +1,18 @@
+checks:
+    php:
+        code_rating: true
+        duplication: true
+
+tools:
+    external_code_coverage: true
+    
+filter:
+    paths:
+        - src/AppBundle/Controller/
+        - src/AppBundle/Fofm/
+    excluded_paths:
+        - "src/*Bundle/Entity/"
+        - "src/*Bundle/Repository/"
+        - "src/*Bundle/DataFixtures/"
+        - "src/*Bundle/Test/"
+        - "src/*Bundle/Form/"
