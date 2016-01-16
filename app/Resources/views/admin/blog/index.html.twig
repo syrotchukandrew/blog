@@ -5,6 +5,7 @@
         <thead>
         <tr>
             <th>Title</th>
+            <th>Foto</th>
             <th><i class="fa fa-calendar"></i>Created at</th>
             <th><i class="fa fa-cogs"></i>Actions</th>
         </tr>
@@ -13,6 +14,8 @@
         {% for post in pagination %}
             <tr>
                 <td>{{ post.title }}</td>
+                <td><img class="img-responsive" src={{ asset("#{post.foto}") | imagine_filter('my_admin') }} alt="foto" style="float: left">
+                </td>
                 <td>{{ post.created.date|date("d F Y H:i:s") }}</td>
                 <td>
                     <div class="item-actions">
