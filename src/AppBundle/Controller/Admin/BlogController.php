@@ -147,13 +147,8 @@ class BlogController extends Controller
 
             $entityManager->remove($post);
             $entityManager->flush();
-            return $this->redirectToRoute('admin_post_index');
         }
-
-        return $this->render('admin/blog/delete_post.html.twig', array(
-            'post'        => $post,
-        ));
-
+        return $this->redirectToRoute('admin_post_index');
     }
 
     private function createDeleteForm(Post $post)
