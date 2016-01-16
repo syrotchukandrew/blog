@@ -14,6 +14,18 @@ class BlogControllerTest extends WebTestCase
         $crawler = $client->request('GET', '/');
 
         $this->assertEquals(200, 200);
-        $this->assertContains('Symfony', 'Symfony');
+        $this->assertContains('Symfon', 'Symfon');
+    }
+
+    public function testLink()
+    {
+        $client = self::createClient();
+        $client->request('GET', '/blog/');
+
+        $this->assertTrue($client->getResponse()->isSuccessful());
+
+        $crawler = $client->getCrawler();
+        $link = $crawler->selectLink('sport')->link();
+        $client->click($link);
     }
 }

@@ -40,6 +40,13 @@ class Post
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="foto", type="string", length=255, nullable=true)
+     */
+    private $foto;
+
+    /**
+     * @var string
      * @Assert\NotBlank(message="post.blank_content")
      * @Assert\Length(min = "10", minMessage = "post.too_short_content")
      * @ORM\Column(name="content", type="text")
@@ -395,5 +402,43 @@ class Post
     public function getShortText()
     {
         return $this->shortText;
+    }
+
+    /**
+     * Set foto
+     *
+     * @param string $foto
+     *
+     * @return Post
+     */
+    public function setFoto($foto)
+    {
+        $this->foto = $foto;
+
+        return $this;
+    }
+
+    /**
+     * Get foto
+     *
+     * @return string
+     */
+    public function getFoto()
+    {
+        return $this->foto;
+    }
+
+    /**
+     * Set rating
+     *
+     * @param float $rating
+     *
+     * @return Post
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+
+        return $this;
     }
 }

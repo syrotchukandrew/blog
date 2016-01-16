@@ -20,8 +20,20 @@ hr {
     background-color: #0f0f0f;
 }
 footer {
+    margin-top: 20px;
     background-color: #0f0f0f;
     color: #00b3ee;
+}
+
+input[type=text] {
+    width: 100%;
+    height: 50px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
 }
 
 .sidebar .section { margin-bottom: 20px; }

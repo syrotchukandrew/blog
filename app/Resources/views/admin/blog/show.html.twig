@@ -12,23 +12,28 @@
 
     <table class="table">
         <tbody>
-            <tr>
-                <th>Short text</th>
-                <td>{{ post.shortText }}</td>
-            </tr>
-            <tr>
-                <th>Content</th>
-                <td>{{ post.content }}</td>
-            </tr>
-            <tr>
-                <th>Tags</th>
-                <td><p>
-                        {% for tag in post.tags %}
-                        {{ tag.title }} </p>
-                    {% endfor %}
+        <tr>
+            <th>Foto</th>
+            <td><img class="img-responsive" src={{ asset("#{post.foto}") | imagine_filter('my_post') }} alt="foto" style="float: left">
+            </td>
+        </tr>
+        <tr>
+            <th>Short text</th>
+            <td>{{ post.shortText }}</td>
+        </tr>
+        <tr>
+            <th>Content</th>
+            <td>{{ post.content }}</td>
+        </tr>
+        <tr>
+            <th>Tags</th>
+            <td><p>
+                    {% for tag in post.tags %}
+                    {{ tag.title }} </p>
+                {% endfor %}
 
-                </td>
-            </tr>
+            </td>
+        </tr>
 
         </tbody>
     </table>

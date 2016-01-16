@@ -16,8 +16,7 @@
             <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created.date|date("d F Y H:i:s") }} </p>
 
             <div class="container-fluid">
-                <img class="img-responsive" src="http://placehold.it/300x200" alt="" style="float: left">
-
+                <img class="img-responsive" src={{ asset("#{post.foto}") | imagine_filter('my_blog') }} alt="foto" style="float: left">
                 <p>{{ post.shortText }}</p>
             </div>
         </article>
