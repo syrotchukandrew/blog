@@ -8,8 +8,9 @@
          Ratting {{ post.rating|round(1) }}</p>
     <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created.date|date("d F Y H:i:s") }}
         {{ post.comments|length }} comments</p>
+    {% if post.foto %}
     <img class="img-responsive" src={{ asset("#{post.foto}") | imagine_filter('my_post') }} alt="foto" style="float: left">
-
+    {% endif %}
     <p class="article">{{ post.content }}</p>
     <div class="well">
         {{ render(controller('AppBundle:Blog:markNew', { 'post': post })) }}
