@@ -107,4 +107,13 @@ liip_imagine:
                 thumbnail: { size: [60, 40], mode: outbound }
                 auto_rotate: ~
 
+vich_uploader:
+    db_driver: orm
+    mappings:
+            post_image:
+                uri_prefix:         /images/post
+                upload_destination: %kernel.root_dir%/../web/images/post
 
+                inject_on_load:     false
+                delete_on_update:   true
+                delete_on_remove:   true
