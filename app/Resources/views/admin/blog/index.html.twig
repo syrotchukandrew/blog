@@ -15,10 +15,8 @@
             <tr>
                 <td>{{ post.title }}</td>
                 <td>
-                    {% if post.foto %}
-                        <img class="img-responsive"
-                             src={{ asset("#{post.foto}") | imagine_filter('my_admin') }} alt="foto"
-                             style="float: left">
+                    {% if post.imageName %}
+                        <img class="img-responsive" src={{ asset("#{post.imageName}") | imagine_filter('my_admin') }} alt="foto" style="float: left">
                     {% endif %}
                 </td>
                 <td>{{ post.created.date|date("d F Y H:i:s") }}</td>
