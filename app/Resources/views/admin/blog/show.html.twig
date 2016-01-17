@@ -15,8 +15,8 @@
         <tr>
             <th>Foto</th>
             <td>
-                {% if post.foto %}
-                <img class="img-responsive" src={{ asset("#{post.foto}") | imagine_filter('my_post') }} alt="foto" style="float: left">
+                {% if post.imageName %}
+                    <img class="img-responsive" src={{ asset("#{post.imageName}") | imagine_filter('my_post') }} alt="foto" style="float: left">
                 {% endif %}
             </td>
         </tr>

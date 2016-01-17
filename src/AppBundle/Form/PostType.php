@@ -7,6 +7,10 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
+
 
 class PostType extends AbstractType
 {
@@ -17,13 +21,22 @@ class PostType extends AbstractType
                 'attr' => array('autofocus' => true, 'rows' => 20, 'cols' => 112),
                 'label' => 'Title',
             ))
-            ->add('shortText', TextType::class, array(
-                'attr' => array('rows' => 20, 'cols' => 112),
-                'label' => 'Short text'
+            ->add('shortText', TextareaType::class, array(
+                'attr' => [
+                    'placeholder' => 'Add text article',
+                    'class' => 'form-control',
+                    'rows' => 5
+                ]
             ))
-            ->add('content', TextType::class, array(
-                'attr' => array('rows' => 20, 'cols' => 112),
-                'label' => 'Content',
+            ->add('content', TextareaType::class, array(
+                'attr' => [
+                    'placeholder' => 'Add text article',
+                    'class' => 'form-control',
+                    'rows' => 5
+                ]
+            ))
+            ->add('image_file', FileType::class, array(
+                'required' => false
             ))
             ->add('tags', EntityType::class, array(
                 'class' => 'AppBundle:Tag',

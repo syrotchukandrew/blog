@@ -47,6 +47,11 @@ class BlogController extends Controller
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $file = $post->getImageFile();
+            $fileName = 'images/post/'.md5(uniqid()).'.'.$file->guessExtension();
+            $imagesDir = $this->container->getParameter('kernel.root_dir').'/../web/images/post';
+            $file->move($imagesDir, $fileName);
+            $post->setImageName($fileName);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
@@ -114,18 +119,18 @@ class BlogController extends Controller
     public function editAction(Post $post, Request $request)
     {
         $entityManager = $this->getDoctrine()->getManager();
-
         $editForm = $this->createForm(PostType::class, $post);
         $deleteForm = $this->createDeleteForm($post);
-
         $editForm->handleRequest($request);
-
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $file = $post->getImageFile();
+            $fileName = 'images/post/'.md5(uniqid()).'.'.$file->guessExtension();
+            $imagesDir = $this->container->getParameter('kernel.root_dir').'/../web/images/post';
+            $file->move($imagesDir, $fileName);
+            $post->setImageName($fileName);
             $entityManager->flush();
-
             return $this->redirectToRoute('admin_post_edit', array('slug' => $post->getSlug()));
         }
-
         return $this->render('admin/blog/edit.html.twig', array(
             'post'        => $post,
             'edit_form'   => $editForm->createView(),

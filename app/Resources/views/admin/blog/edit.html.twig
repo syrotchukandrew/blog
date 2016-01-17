@@ -2,12 +2,17 @@
 
 {% block main %}
     <h1>Edit post</h1>
+    {% if post.imageName %}
+            <img class="img-responsive" src={{ asset("#{post.imageName}") | imagine_filter('my_blog') }} alt="foto">
+        {% endif %}
 
-    {{ include('admin/blog/_form.html.twig', {
-        form: edit_form,
-        button_label: 'Save',
-        include_back_to_home_link: true,
-    }, with_context = false) }}
+     {{ include('admin/blog/_form.html.twig', {
+            form: edit_form,
+            button_label: 'Save',
+            include_back_to_home_link: true,
+        }, with_context = false) }}
+    
+
 {% endblock %}
 
 {% block sidebar %}
