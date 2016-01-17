@@ -24,4 +24,6 @@ class CommentTypeTest extends TypeTestCase
             $this->assertArrayHasKey($key, $children);
         }
     }
+
+
 }
