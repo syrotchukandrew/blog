@@ -88,7 +88,6 @@ class BlogController extends Controller
 
             $entityManager = $this->getDoctrine()->getManager();
             $post->addMark($mark['mark']);
-            $entityManager->persist($post);
             $entityManager->flush();
 
             return $this->redirectToRoute('blog_post', array('slug' => $post->getSlug()));
