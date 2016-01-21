@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 
 /**
- * @Route("/blog")
+ *
  */
 class BlogController extends Controller
 {
@@ -37,7 +37,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/posts/{slug}", name="blog_post")
+     * @Route("/post/{slug}", name="blog_post")
      */
     public function postShowAction(Post $post, Request $request)
     {
@@ -135,11 +135,20 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/livesearch/{slug}", name="livesearch")
+     * @Route("/livesearch", name="livesearch")
      */
-    public function livesearchAction(Request $request, $slug)
+    public function livesearchAction(Request $request)
     {
-        $query = $this->getDoctrine()->getRepository('AppBundle:Post')->livesearch($slug);
-        return new Response($query);
+        $slug = $request->get('slug');
+        $allPosts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
+        $posts = '';
+        foreach ($allPosts as $post) {
+            $postTitle = $post->getTitle();
+            $postSlug = $post->getSlug();
+            if (stristr($postTitle, $slug)) {
+                $posts = $posts ."<a href=/blog/posts/$postSlug>$postTitle</a><br>";
+            }
+        }
+        return new Response($posts);
     }
 }
