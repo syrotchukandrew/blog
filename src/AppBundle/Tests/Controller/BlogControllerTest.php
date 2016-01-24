@@ -20,7 +20,7 @@ class BlogControllerTest extends WebTestCase
     public function testLink()
     {
         $client = self::createClient();
-        $client->request('GET', '/blog/');
+        $client->request('GET', '/');
 
         $this->assertTrue($client->getResponse()->isSuccessful());
 

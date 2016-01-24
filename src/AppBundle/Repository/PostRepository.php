@@ -32,23 +32,6 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
             ->getResult();
     }
 
-    public function livesearch($slug)
-    {
-        $posts = $this->createQueryBuilder('post')
-            ->select('post')
-            ->getQuery()
-            ->getResult();
-        $list = "";
-        foreach ($posts as $post) {
-            $postTitle = $post->getTitle();
-            $postSlug = $post->getSlug();
-            if (stristr($postTitle, $slug)) {
-                    $list = $list ."<a href=/blog/posts/$postSlug>$postTitle</a><br>";
-            }
-        }
-        return $list;
-    }
-
     public function getPostsWithTags()
     {
         return $this->createQueryBuilder('post')

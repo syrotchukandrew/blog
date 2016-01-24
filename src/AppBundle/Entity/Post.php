@@ -339,7 +339,7 @@ class Post
      */
     public function addComment(\AppBundle\Entity\Comment $comment)
     {
-        $this->comments[] = $comment;
+        $this->getComments()->add($comment);
 
         return $this;
     }
@@ -373,7 +373,7 @@ class Post
      */
     public function addTag(\AppBundle\Entity\Tag $tag)
     {
-        $this->tags[] = $tag;
+        $this->getTags()->add($tag);
 
         return $this;
     }

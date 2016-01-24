@@ -180,7 +180,7 @@ class Tag
      */
     public function addPost(\AppBundle\Entity\Post $post)
     {
-        $this->posts[] = $post;
+        $this->getPosts()->add($post);
 
         return $this;
     }

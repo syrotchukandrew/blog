@@ -1,8 +1,9 @@
 <div class="well">
     <h4>Blog Search</h4>
+
     <form>
         <div class="input-group">
-        <input type="search" class="form-control" onkeyup="showResult(this.value)">
+            <input type="search" class="form-control" onkeyup="showResult(this.value)">
         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
                                 <span class="glyphicon glyphicon-search"></span>
@@ -12,17 +13,45 @@
         <div id="livesearch"></div>
     </form>
 
-    {#<div class="input-group">
-        <input type="search" class="form-control">
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="glyphicon glyphicon-search"></span>
-                            </button>
-                        </span>
-    </div>#}
 </div>
 
-<div class="well sidebar"><section class="section">
+<script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+<script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+<script>
+    function showResult(str) {
+        if (str.length == 0) {
+            document.getElementById("livesearch").innerHTML = "";
+            document.getElementById("livesearch").style.border = "0px";
+            return;
+        }
+        if (window.XMLHttpRequest) {
+            // code for IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+        } else {  // code for IE6, IE5
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                var parsed = JSON.parse(xmlhttp.responseText);
+                var textDiv = '';
+                for (var item in parsed) {
+                    if (!parsed.hasOwnProperty(item)) continue;
+                    var title = parsed[item];
+                    var url = Routing.generate('blog_post', {slug: item});
+                    textDiv = textDiv + "<a href=" + url + ">" + title + "</a><br>";
+                }
+                document.getElementById("livesearch").innerHTML = textDiv;
+                document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
+            }
+        };
+        var route = Routing.generate('livesearch', {slug: str});
+        xmlhttp.open("GET", route, true);
+        xmlhttp.send();
+    }
+</script>
+
+<div class="well sidebar">
+    <section class="section">
         <header>
             <h3>Tag Cloud</h3>
         </header>
@@ -39,8 +68,6 @@
         </p>
     </section>
 </div>
-
-
 <div class="well sidebar">
     <section class="section">
         <header>
@@ -53,8 +80,12 @@
                             <span class="glyphicon glyphicon-star"></span>
                         {% endfor %}
                         Ratting {{ post.rating|round(1) }}</p>
-                    <p class="small"> created on [<em><time datetime="{{ post.created|date('c') }}">
-                                {{ post.created|date('Y-m-d h:iA') }}</time></em>]</p>
+
+                    <p class="small"> created on [<em>
+                            <time datetime="{{ post.created|date('c') }}">
+                                {{ post.created|date('Y-m-d h:iA') }}</time>
+                        </em>]
+                    </p>
                     <a href="{{ path('blog_post', { 'slug': post.slug }) }}">
                         {{ post.title }}
                     </a>
@@ -72,11 +103,14 @@
         {% for comment in latestComments %}
             <article class="comment">
                 <header>
-                    <p class="small"> commented on [<em><time datetime="{{ comment.created|date('c') }}">
-                                {{ comment.created|date('Y-m-d h:iA') }}</time></em>]</p>
-                        <a href="{{ path('blog_post', { 'slug': comment.post.slug }) }}#comment-{{ comment.id }}">
-                            {{ comment.content }}
-                        </a>
+                    <p class="small"> commented on [<em>
+                            <time datetime="{{ comment.created|date('c') }}">
+                                {{ comment.created|date('Y-m-d h:iA') }}</time>
+                        </em>]
+                    </p>
+                    <a href="{{ path('blog_post', { 'slug': comment.post.slug }) }}#comment-{{ comment.id }}">
+                        {{ comment.content }}
+                    </a>
 
                 </header>
             </article>

@@ -13,10 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
 
-
-/**
- * @Route("/blog")
- */
 class BlogController extends Controller
 {
     /**
@@ -37,7 +33,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/posts/{slug}", name="blog_post")
+     * @Route("/post/{slug}", name="blog_post", options={"expose"=true})
      */
     public function postShowAction(Post $post, Request $request)
     {
@@ -92,7 +88,6 @@ class BlogController extends Controller
 
             $entityManager = $this->getDoctrine()->getManager();
             $post->addMark($mark['mark']);
-            $entityManager->persist($post);
             $entityManager->flush();
 
             return $this->redirectToRoute('blog_post', array('slug' => $post->getSlug()));
@@ -135,11 +130,20 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/livesearch/{slug}", name="livesearch")
+     * @Route("/livesearch/{slug}", name="livesearch", options={"expose"=true})
      */
-    public function livesearchAction(Request $request, $slug)
+    public function livesearchAction($slug, Request $request)
     {
-        $query = $this->getDoctrine()->getRepository('AppBundle:Post')->livesearch($slug);
-        return new Response($query);
+        $allPosts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
+        $slugsTitles = array();
+        foreach ($allPosts as $post) {
+            $postTitle = $post->getTitle();
+            if (stristr($postTitle, $slug)) {
+                $postSlug = $post->getSlug();
+                $slugsTitles[$postSlug] = $postTitle;
+            }
+        }
+
+        return new Response(json_encode($slugsTitles));
     }
 }
