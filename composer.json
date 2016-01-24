@@ -26,7 +26,8 @@
         "fzaninotto/faker": "1.5.0",
         "knplabs/knp-paginator-bundle": "^2.5",
         "liip/imagine-bundle": "^1.4",
-        "friendsofsymfony/user-bundle": "~2.0@dev"
+        "friendsofsymfony/user-bundle": "~2.0@dev",
+        "friendsofsymfony/jsrouting-bundle": "^1.5"
 
     },
     "require-dev": {

@@ -33,7 +33,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/post/{slug}", name="blog_post")
+     * @Route("/post/{slug}", name="blog_post", options={"expose"=true})
      */
     public function postShowAction(Post $post, Request $request)
     {
@@ -130,20 +130,20 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/livesearch", name="livesearch")
+     * @Route("/livesearch/{slug}", name="livesearch", options={"expose"=true})
      */
-    public function livesearchAction(Request $request)
+    public function livesearchAction($slug, Request $request)
     {
-        $slug = $request->get('slug');
         $allPosts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
-        $posts = '';
+        $slugsTitles = array();
         foreach ($allPosts as $post) {
             $postTitle = $post->getTitle();
-            $postSlug = $post->getSlug();
             if (stristr($postTitle, $slug)) {
-                $posts = $posts ."<a href=/blog/posts/$postSlug>$postTitle</a><br>";
+                $postSlug = $post->getSlug();
+                $slugsTitles[$postSlug] = $postTitle;
             }
         }
-        return new Response($posts);
+
+        return new Response(json_encode($slugsTitles));
     }
 }
