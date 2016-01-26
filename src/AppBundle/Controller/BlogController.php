@@ -130,20 +130,40 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/livesearch/{slug}", name="livesearch", options={"expose"=true})
+     * @Route("/livesearch", name="livesearch", options={"expose"=true})
      */
-    public function livesearchAction($slug, Request $request)
+    public function livesearchAction(Request $request)
     {
         $allPosts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
-        $slugsTitles = array();
-        foreach ($allPosts as $post) {
-            $postTitle = $post->getTitle();
-            if (stristr($postTitle, $slug)) {
-                $postSlug = $post->getSlug();
-                $slugsTitles[$postSlug] = $postTitle;
+        if ($request->getMethod() == 'GET') {
+            $slug = $request->get('slug');
+            $slugsTitles = array();
+            foreach ($allPosts as $post) {
+                $postTitle = $post->getTitle();
+                if (stristr($postTitle, $slug)) {
+                    $postSlug = $post->getSlug();
+                    $slugsTitles[$postSlug] = $postTitle;
+                }
             }
+            return new Response(json_encode($slugsTitles));
         }
+        if ($request->getMethod() == 'POST') {
+            $slug = $request->get('slug');
+            $posts = array();
+            foreach ($allPosts as $post) {
+                $postTitle = $post->getTitle();
+                if (stristr($postTitle, $slug)) {
+                    $posts[] = $post;
+                }
+            }
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $posts,
+                $request->query->getInt('page', 1),
+                10
+            );
 
-        return new Response(json_encode($slugsTitles));
+            return $this->render('blog/index.html.twig', array('pagination' => $pagination));
+        }
     }
 }

@@ -1,11 +1,11 @@
 <div class="well">
     <h4>Blog Search</h4>
 
-    <form>
+    <form action="{{ path('livesearch') }}" method="post">
         <div class="input-group">
-            <input type="search" class="form-control" onkeyup="showResult(this.value)">
+            <input type="search" class="form-control" name="slug" onkeyup="showResult(this.value)">
         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
+                            <button class="btn btn-default" type="submit">
                                 <span class="glyphicon glyphicon-search"></span>
                             </button>
                         </span>
@@ -44,8 +44,8 @@
                 document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
             }
         };
-        var route = Routing.generate('livesearch', {slug: str});
-        xmlhttp.open("GET", route, true);
+        var route = Routing.generate('livesearch');
+        xmlhttp.open("GET", route + "?slug="+str, true);
         xmlhttp.send();
     }
 </script>
