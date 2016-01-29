@@ -44,25 +44,17 @@ class BlogController extends Controller
         $post = new Post();
         $form = $this->createForm(PostType::class, $post)
             ->add('saveAndCreateNew', SubmitType::class);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $post->getImageFile();
-            $fileName = 'images/post/'.md5(uniqid()).'.'.$file->guessExtension();
-            $imagesDir = $this->container->getParameter('kernel.root_dir').'/../web/images/post';
-            $file->move($imagesDir, $fileName);
-            $post->setImageName($fileName);
+            $post = $this->get('app.file_manager')->fileManager($post);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
-
             if ($form->get('saveAndCreateNew')->isClicked()) {
                 return $this->redirectToRoute('admin_post_new');
             }
-
             return $this->redirectToRoute('admin_post_index');
         }
-
         return $this->render('admin/blog/newpost.html.twig', array(
             'post' => $post,
             'form' => $form->createView(),
@@ -123,11 +115,7 @@ class BlogController extends Controller
         $deleteForm = $this->createDeleteForm($post);
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $file = $post->getImageFile();
-            $fileName = 'images/post/'.md5(uniqid()).'.'.$file->guessExtension();
-            $imagesDir = $this->container->getParameter('kernel.root_dir').'/../web/images/post';
-            $file->move($imagesDir, $fileName);
-            $post->setImageName($fileName);
+            $post = $this->get('app.file_manager')->fileManager($post);
             $entityManager->flush();
             return $this->redirectToRoute('admin_post_edit', array('slug' => $post->getSlug()));
         }

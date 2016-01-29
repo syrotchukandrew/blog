@@ -102,8 +102,7 @@ class BlogController extends Controller
     public function sidebarAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $tags = $em->getRepository('AppBundle:Tag')->getTags();
-        $tagWeights = $this->getDoctrine()->getRepository('AppBundle:Tag')->getTagWeights($tags);
+        $tagWeights = $this->get('app.tag_weights')->tagWeights();
         $latestComments = $em->getRepository('AppBundle:Comment')->getLatestComments();
         $populatePosts = $em->getRepository('AppBundle:Post')->getPopulate();
 
@@ -134,35 +133,16 @@ class BlogController extends Controller
      */
     public function livesearchAction(Request $request)
     {
-        $allPosts = $this->getDoctrine()->getRepository('AppBundle:Post')->findAll();
-        if ($request->getMethod() == 'GET') {
-            $slug = $request->get('slug');
-            $slugsTitles = array();
-            foreach ($allPosts as $post) {
-                $postTitle = $post->getTitle();
-                if (stristr($postTitle, $slug)) {
-                    $postSlug = $post->getSlug();
-                    $slugsTitles[$postSlug] = $postTitle;
-                }
-            }
-            return new Response(json_encode($slugsTitles));
+        if ($request->getMethod() === 'GET') {
+            return new Response(json_encode($this->get('app.searcher')->search()));
         }
-        if ($request->getMethod() == 'POST') {
-            $slug = $request->get('slug');
-            $posts = array();
-            foreach ($allPosts as $post) {
-                $postTitle = $post->getTitle();
-                if (stristr($postTitle, $slug)) {
-                    $posts[] = $post;
-                }
-            }
+        if ($request->getMethod() === 'POST') {
             $paginator = $this->get('knp_paginator');
             $pagination = $paginator->paginate(
-                $posts,
+                $this->get('app.searcher')->search(),
                 $request->query->getInt('page', 1),
                 10
             );
-
             return $this->render('blog/index.html.twig', array('pagination' => $pagination));
         }
     }
