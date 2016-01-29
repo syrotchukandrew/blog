@@ -8,9 +8,22 @@ use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Comment;
 use Faker\Factory;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
+class LoadPostData extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
+    /** @var ContainerInterface */
+    private $container;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create();
@@ -18,6 +31,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
             static $id = 1;
             $post = new Post();
             $post->setTitle($faker->sentence);
+            $post->setSlug($this->container->get('app.slugger')->slugger($post->getTitle()).$i);
             $post->setImageName("images/post/foto$id.jpg");
             $post->setShortText($faker->sentences(10,true));
             $post->setContent($faker->realText($maxNbChars = 5000, $indexSize = 2));
