@@ -33,7 +33,7 @@ class Tag
 
     /**
      * @var string
-     * @Gedmo\Slug(fields={"title"})
+     *
      * @ORM\Column(name="slug", type="string", length=255)
      */
     private $slug;
