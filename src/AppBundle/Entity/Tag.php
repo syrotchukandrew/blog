@@ -45,14 +45,12 @@ class Tag
 
     /**
      * @var \DateTime $created
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
 
     /**
      * @var \DateTime $updated
-     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updated", type="datetime")
      */
     private $updated;

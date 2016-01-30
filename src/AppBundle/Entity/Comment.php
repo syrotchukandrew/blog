@@ -51,7 +51,6 @@ class Comment
     /**
      * @var \DateTime $contentChanged
      * @ORM\Column(name="contentChanged", type="datetime", nullable=true)
-     * @Gedmo\Timestampable(on="change", field={"title", "content"})
      */
     private $contentChanged;
 
