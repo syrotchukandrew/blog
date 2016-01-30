@@ -109,7 +109,7 @@
                         </em>]
                     </p>
                     <a href="{{ path('blog_post', { 'slug': comment.post.slug }) }}#comment-{{ comment.id }}">
-                        {{ dots3(comment.content) }}
+                        {{ comment.content|dots3 }}
                     </a>
 
                 </header>

@@ -11,10 +11,10 @@ namespace AppBundle\Twig;
 
 class AppExtension extends \Twig_Extension
 {
-    public function getFunctions()
+    public function getFilters()
     {
         return array(
-            new \Twig_SimpleFunction('dots3', array($this, 'dots3'), array('is_safe' => array('html'))),
+            new \Twig_SimpleFilter('dots3', array($this, 'dots3'))
             );
     }
 
