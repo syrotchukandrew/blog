@@ -31,6 +31,7 @@ case "$Clue" in
 
 3) echo "start updating database..."
     php app/console doctrine:database:drop --force
+    ./node_modules/.bin/gulp
     php app/console doctrine:database:create
     php app/console doctrine:schema:update --force
     php app/console doctrine:fixtures:load --append --purge-with-truncate
