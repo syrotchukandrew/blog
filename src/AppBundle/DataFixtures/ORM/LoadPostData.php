@@ -31,7 +31,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface, C
             static $id = 1;
             $post = new Post();
             $post->setTitle($faker->sentence);
-            $post->setSlug($this->container->get('app.slugger')->slugger($post->getTitle()).$i);
+            //$post->setSlug($this->container->get('app.slugger')->slugger($post->getTitle()).$i);
             $post->setImageName("images/post/foto$id.jpg");
             $post->setShortText($faker->sentences(10,true));
             $post->setContent($faker->realText($maxNbChars = 5000, $indexSize = 2));

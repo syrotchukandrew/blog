@@ -44,7 +44,6 @@ class Comment
 
     /**
      * @var \DateTime $created
-     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
      */
     private $created;
@@ -90,6 +89,20 @@ class Comment
     public function getContent()
     {
         return $this->content;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     *
+     * @return Comment
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
     }
 
     /**
