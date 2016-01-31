@@ -23,9 +23,7 @@ class ImageEventSubscriber implements EventSubscriber
             if (null === $post->getImageName()) {
                 return;
             }
-
-            if ($eventArgs->hasChangedField('imageName') &&
-                file_exists($eventArgs->getOldValue('imageName'))) {
+            if ($eventArgs->hasChangedField('imageName') && file_exists($eventArgs->getOldValue('imageName'))) {
                 unlink($eventArgs->getOldValue('imageName'));
             }
         }

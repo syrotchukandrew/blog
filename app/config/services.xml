@@ -23,7 +23,7 @@
         </service>
 
         <service id="app.image_subscriber" class="AppBundle\EventListener\ImageEventSubscriber">
-            <tag name="doctrine.event_subscriber" connection="default" />
+            <tag name="doctrine.event_subscriber" connection="default"/>
         </service>
 
     </services>

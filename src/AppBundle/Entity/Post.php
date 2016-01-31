@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpFoundation\File\File;
 
 
-
 /**
  * Post
  *
@@ -317,7 +316,7 @@ class Post
         for ($i = 0; $i < $count; $i++) {
             $total = $total + $this->marks[$i];
         }
-        $this->rating = $total/$count;
+        $this->rating = $total / $count;
     }
 
     /**
@@ -445,6 +444,7 @@ class Post
         $this->imageFile = $imageFile;
         return $this;
     }
+
     /**
      * @return string
      */
@@ -452,6 +452,7 @@ class Post
     {
         return $this->imageFile;
     }
+
     /**
      * @param string $imageName
      */
