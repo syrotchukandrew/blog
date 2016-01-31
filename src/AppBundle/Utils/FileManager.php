@@ -17,7 +17,7 @@ class FileManager
      * Constructor.
      *
      */
-    public function __construct( $rootDir)
+    public function __construct($rootDir)
     {
         $this->rootDir = $rootDir;
     }
@@ -26,8 +26,8 @@ class FileManager
     {
         if ($post->getImageFile() !== null) {
             $file = $post->getImageFile();
-            $fileName = 'images/post/'.md5(uniqid()).'.'.$file->guessExtension();
-            $imagesDir = $this->rootDir.'/../web/images/post';
+            $fileName = 'images/post/' . md5(uniqid()) . '.' . $file->guessExtension();
+            $imagesDir = $this->rootDir . '/../web/images/post';
             $file->move($imagesDir, $fileName);
             $post->setImageName($fileName);
         }
