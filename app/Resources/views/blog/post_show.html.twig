@@ -6,17 +6,25 @@
             <span class="glyphicon glyphicon-star"></span>
         {% endfor %}
          Ratting {{ post.rating|round(1) }}</p>
+    <p>Author: {{ post.authorEmail }} </p>
     <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created.date|date("d F Y H:i:s") }}
         {{ post.comments|length }} comments</p>
     {% if post.imageName %}
         <img class="img-responsive" src={{ asset("#{post.imageName}") | imagine_filter('my_post') }} alt="foto" style="float: left">
     {% endif %}
     <p class="article">{{ post.content }}</p>
-    <div class="well">
-        {{ render(controller('AppBundle:Blog:markNew', { 'post': post })) }}
-    </div>
-    <div class="well">
+    <div id="post-add-comment" class="well">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {{ render(controller('AppBundle:Blog:markNew', { 'post': post })) }}
             {{ render(controller('AppBundle:Blog:commentNew', { 'post': post })) }}
+        {% else %}
+            <p>
+                <a class="btn btn-success" href="{{ path('security_login_form') }}">
+                    <i class="fa fa-sign-in"></i> Login
+                </a>
+                Log in for comments and marks
+            </p>
+        {% endif %}
     </div>
 
     <h3>{{ post.comments|length }} comments</h3>
@@ -24,13 +32,25 @@
     {% for comment in pagination %}
         <div class="row post-comment">
             <h4 class="col-sm-3">
-                <strong>{{ comment.created.date|date("d F Y H:i:s") }}</strong>
+                <strong>Created at <br>{{ comment.created.date|date("d F Y H:i:s") }} <br></strong>
+                <strong>Author: {{ comment.authorEmail }}</strong>
             </h4>
             <div class="col-sm-9">
                 <p class="article">{{ comment.content }}</p>
 
             </div>
         </div>
+        {% if is_granted('edit', comment) %}
+            <div class="section">
+                <a href="{{ path('admin_post_edit', { slug: post.slug }) }}" class="btn btn-primary btn-success">
+                    <i class="fa fa-edit"></i> Edit this comment
+                </a>
+                <a href="{{ path('comment_delete', { commentId: comment.id, slug: post.slug }) }}" class="btn btn-primary btn-danger">
+                    <i class="fa fa-edit"></i> Delete this comment
+                </a>
+            </div>
+        {% endif %}
+
     {% endfor %}
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}

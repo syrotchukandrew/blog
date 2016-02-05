@@ -5,13 +5,22 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+
 
 class CommentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('content')
+            ->add('content', TextareaType::class, array(
+                'attr' => [
+                    'placeholder' => 'Add text article',
+                    'class' => 'form-control',
+                    'rows' => 10,
+                    'cols' => 133
+                ]
+            ))
         ;
     }
 

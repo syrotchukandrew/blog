@@ -22,8 +22,18 @@
                     <li class="active"><a href="{{ path('homepage') }}">Homepage</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('admin_post_index') }}"><span class="glyphicon glyphicon-user"></span>Administration</a>
+                        {% endif %}
+                    </li>
+                    <li>
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR')%}
+                            <a href="{{ path('blog_post_new') }}"><span class="glyphicon glyphicon-user"></span>New post</a>
+                        {% endif %}
+                    </li>
+                    <li><a href="{{ path('user_registration') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                    <li><a href="{{ path('security_login_form') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 </ul>
             </div>
         </nav>

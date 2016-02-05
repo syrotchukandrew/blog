@@ -4,6 +4,7 @@
 
 {% block main %}
     <h1>{{ post.title }}</h1>
+    <h3>Author email: {{ post.authorEmail }}</h3>
     <p>{% for i in 1..post.rating|round %}
             <span class="glyphicon glyphicon-star"></span>
         {% endfor %}

@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
+use AppBundle\Entity\Comment;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,6 +13,11 @@ use AppBundle\Form\MarkType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use AppBundle\Form\PostType;
+
+
 
 class BlogController extends Controller
 {
@@ -20,7 +26,6 @@ class BlogController extends Controller
      */
     public function indexAction(Request $request)
     {
-
         $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->queryLatest();
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -37,9 +42,10 @@ class BlogController extends Controller
      */
     public function postShowAction(Post $post, Request $request)
     {
+        $comments = $this->getDoctrine()->getRepository('AppBundle:Comment')->findBy(array('post' => $post));
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $comments = $post->getComments(),
+            $comments,
             $request->query->getInt('page', 1),
             5
         );
@@ -47,14 +53,16 @@ class BlogController extends Controller
     }
 
     /**
+     * @Security("is_granted('IS_AUTHENTICATED_FULLY')")
      * @Route("/comment/{postSlug}/new", name = "comment_new")
      * @Method("POST")
      * @ParamConverter("post", options={"mapping": {"postSlug": "slug"}})
      */
     public function commentNewAction(Post $post, Request $request)
     {
+        $comment = new Comment();
+        $this->denyAccessUnlessGranted('create', $comment);
         $form = $this->createForm(CommentType::class);
-
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
@@ -71,6 +79,39 @@ class BlogController extends Controller
             'post' => $post,
             'form' => $form->createView(),
         ));
+    }
+
+    /**
+     * @Route("/comment/{slug}/{commentId}/delete", name = "comment_delete")
+     * @Method({"GET", "DELETE"})
+     */
+    public function commentDeleteAction(Request $request, $commentId, $slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AppBundle:Comment')->findOneBy(array('id' => $commentId));
+        $this->denyAccessUnlessGranted('create', $entity);
+        $form = $this->createForm(CommentType::class, $entity, [
+            'method' => 'DELETE',
+        ]);
+        $form->add('submit', SubmitType::class,
+            ['label' => 'Delete',
+                'attr' => ['class' => 'btn btn-default left',
+                    'type' => 'submit']
+            ]
+        );
+
+        if ($request->getMethod() == 'DELETE') {
+            $form->handleRequest($request);
+            if ($form->isValid() && $form->isSubmitted()) {
+                $em->remove($entity);
+                $em->flush();
+                return $this->redirectToRoute('blog_post', array('slug' => $slug));
+            }
+        }
+        return $this->render(':blog:comment_delete.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
     }
 
     /**
@@ -146,4 +187,87 @@ class BlogController extends Controller
             return $this->render('blog/index.html.twig', array('pagination' => $pagination));
         }
     }
+
+    /**
+     * @Route("/newpost", name="blog_post_new")
+     * @Method({"GET", "POST"})
+     */
+    public function newPostAction(Request $request)
+    {
+        $post = new Post();
+        $this->denyAccessUnlessGranted('create', $post);
+        $form = $this->createForm(PostType::class, $post)
+            ->add('saveAndCreateNew', SubmitType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $post = $this->get('app.file_manager')->fileManager($post);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($post);
+            $entityManager->flush();
+            if ($form->get('saveAndCreateNew')->isClicked()) {
+                return $this->redirectToRoute('admin_post_new');
+            }
+            return $this->redirectToRoute('homepage');
+        }
+        return $this->render('blog/newpost.html.twig', array(
+            'post' => $post,
+            'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/blog/{slug}/edit", name="blog_post_edit")
+     * @Method({"GET", "POST"})
+     * @Security("is_granted('edit', post)")
+     */
+    public function editPostAction(Post $post, Request $request)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $editForm = $this->createForm(PostType::class, $post);
+        $editForm->handleRequest($request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $post = $this->get('app.file_manager')->fileManager($post);
+            $entityManager->flush();
+            return $this->redirectToRoute('blog_post', array('slug' => $post->getSlug()));
+        }
+        return $this->render('blog/edit.html.twig', array(
+            'post'        => $post,
+            'edit_form'   => $editForm->createView(),
+        ));
+    }
+
+    /**
+     * @Route("/post/{slug}/delete", name = "blog_post_delete")
+     * @Method({"GET", "DELETE"})
+     * @Security("is_granted('remove', post)")
+     */
+    public function postDeleteAction(Request $request, $slug, Post $post)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('AppBundle:Post')->findOneBy(array('slug' => $slug));
+        $form = $this->createForm(PostType::class, $entity, [
+            'method' => 'DELETE',
+        ]);
+        $form->add('submit', SubmitType::class,
+            ['label' => 'Delete',
+                'attr' => ['class' => 'btn btn-default left',
+                    'type' => 'submit']
+            ]
+        );
+
+        if ($request->getMethod() == 'DELETE') {
+            $form->handleRequest($request);
+            if ($form->isValid() && $form->isSubmitted()) {
+                $em->remove($entity);
+                $em->flush();
+                return $this->redirectToRoute('homepage');
+            }
+        }
+        return $this->render(':blog:post_delete.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
+    }
+
+
 }

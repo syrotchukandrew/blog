@@ -31,6 +31,12 @@ class Comment
     private $post;
 
     /**
+     * @ORM\Column(type="string")
+     * @Assert\Email()
+     */
+    private $authorEmail;
+
+    /**
      * @ORM\Column(name="content", type="text")
      * @Assert\NotBlank(message="comment.blank")
      * @Assert\Length(
@@ -67,6 +73,27 @@ class Comment
         return $this->id;
     }
 
+    public function getAuthorEmail()
+    {
+        return $this->authorEmail;
+    }
+
+    public function setAuthorEmail($authorEmail)
+    {
+        $this->authorEmail = $authorEmail;
+    }
+
+    /**
+     * Is the given User the author of this Comment?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user)
+    {
+        return $user->getEmail() == $this->getAuthorEmail();
+    }
     
     /**
      * Set content

@@ -18,6 +18,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
             static $id = 1;
             $post = new Post();
             $post->setTitle($faker->sentence);
+            $post->setAuthorEmail('user_admin@blog.com');
             $post->setImageName("images/post/foto$id.jpg");
             $post->setShortText($faker->sentences(10,true));
             $post->setContent($faker->realText($maxNbChars = 5000, $indexSize = 2));
@@ -34,6 +35,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
             $rand = rand(3, 7);
             for ($j = 0; $j < $rand; $j++) {
                 $comment = new Comment();
+                $comment->setAuthorEmail('user_user@blog.com');
                 $comment->setContent($faker->realText($maxNbChars = 500, $indexSize = 2));
                 $comment->setPost($post);
                 $post->getComments()->add($comment);
