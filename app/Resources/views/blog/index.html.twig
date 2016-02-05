@@ -21,7 +21,17 @@
                 {% endif %}
                 <p>{{ post.shortText }}</p>
             </div>
-        </article>
+        </article><br>
+        {% if is_granted('edit', post) %}
+            <div class="section">
+                <a href="{{ path('blog_post_edit', { slug: post.slug }) }}" class="btn btn-primary btn-success">
+                    <i class="fa fa-edit"></i> Edit this post
+                </a>
+                <a href="{{ path('blog_post_delete', { slug: post.slug }) }}" class="btn btn-primary btn-danger">
+                    <i class="fa fa-edit"></i> Delete this post
+                </a>
+            </div>
+        {% endif %}
         <hr style="color: #0f0f0f; background-color: #0f0f0f; height: 5px">
     {% endfor %}
     <div class="navigation">

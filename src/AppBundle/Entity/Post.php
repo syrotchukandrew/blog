@@ -34,6 +34,12 @@ class Post
     private $title;
 
     /**
+     * @ORM\Column(type="string")
+     * @Assert\Email()
+     */
+    private $authorEmail;
+
+    /**
      * @var string
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(name="slug", type="string", length=255)
@@ -162,6 +168,28 @@ class Post
     public function getTitle()
     {
         return $this->title;
+    }
+
+    public function getAuthorEmail()
+    {
+        return $this->authorEmail;
+    }
+
+    public function setAuthorEmail($authorEmail)
+    {
+        $this->authorEmail = $authorEmail;
+    }
+
+    /**
+     * Is the given User the author of this Post?
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function isAuthor(User $user)
+    {
+        return $user->getEmail() == $this->getAuthorEmail();
     }
 
     /**

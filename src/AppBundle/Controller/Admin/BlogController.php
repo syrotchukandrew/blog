@@ -11,9 +11,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+
 
 
 /**
+ * @Security("has_role('ROLE_ADMIN')")
  * @Route("/admin/post")
  */
 class BlogController extends Controller
@@ -36,12 +39,13 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/newpost", name="admin_post_new")
+     * @Route("/admin/newpost", name="admin_post_new")
      * @Method({"GET", "POST"})
      */
     public function newPostAction(Request $request)
     {
         $post = new Post();
+        $this->denyAccessUnlessGranted('create', $post);
         $form = $this->createForm(PostType::class, $post)
             ->add('saveAndCreateNew', SubmitType::class);
         $form->handleRequest($request);
@@ -107,6 +111,7 @@ class BlogController extends Controller
     /**
      * @Route("/{slug}/edit", name="admin_post_edit")
      * @Method({"GET", "POST"})
+     * @Security("is_granted('edit', post)")
      */
     public function editAction(Post $post, Request $request)
     {
@@ -129,6 +134,7 @@ class BlogController extends Controller
     /**
      * @Route("/{slug}/delete", name="admin_post_delete")
      * @Method("DELETE")
+     * @Security("is_granted('remove', post)")
      */
     public function deleteAction(Request $request, Post $post)
     {
