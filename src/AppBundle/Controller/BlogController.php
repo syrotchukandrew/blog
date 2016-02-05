@@ -67,7 +67,7 @@ class BlogController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $comment = $form->getData();
             $comment->setPost($post);
-
+            $comment->setAuthorEmail($this->getUser()->getEmail());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($comment);
             $entityManager->flush();
@@ -82,6 +82,34 @@ class BlogController extends Controller
     }
 
     /**
+     * @Route("/comment/{slug}/{commentId}/edit", name="comment_edit")
+     * @Method({"GET", "POST"})
+     */
+    public function editCommentAction(Request $request, $slug, $commentId)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $comment = $em->getRepository('AppBundle:Comment')->findOneBy(array('id' => $commentId));
+        $this->denyAccessUnlessGranted('edit', $comment);
+        $editForm = $this->createForm(CommentType::class, $comment);
+        $editForm->add('submit', SubmitType::class,
+            ['label' => 'Edit',
+                'attr' => ['class' => 'btn btn-default left',
+                    'type' => 'submit']
+            ]
+        );
+        $editForm->handleRequest($request);
+        if ($editForm->isSubmitted() && $editForm->isValid()) {
+            //$comment = $editForm->getData();
+            $em->flush();
+            return $this->redirectToRoute('blog_post', array('slug' => $slug));
+        }
+        return $this->render('blog/comment_edit.html.twig', array(
+            'comment'        => $comment,
+            'edit_form'   => $editForm->createView(),
+        ));
+    }
+
+    /**
      * @Route("/comment/{slug}/{commentId}/delete", name = "comment_delete")
      * @Method({"GET", "DELETE"})
      */
@@ -89,7 +117,7 @@ class BlogController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $entity = $em->getRepository('AppBundle:Comment')->findOneBy(array('id' => $commentId));
-        $this->denyAccessUnlessGranted('create', $entity);
+        $this->denyAccessUnlessGranted('remove', $entity);
         $form = $this->createForm(CommentType::class, $entity, [
             'method' => 'DELETE',
         ]);

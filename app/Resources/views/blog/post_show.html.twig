@@ -42,7 +42,7 @@
         </div>
         {% if is_granted('edit', comment) %}
             <div class="section">
-                <a href="{{ path('admin_post_edit', { slug: post.slug }) }}" class="btn btn-primary btn-success">
+                <a href="{{ path('comment_edit', { commentId: comment.id, slug: post.slug }) }}" class="btn btn-primary btn-success">
                     <i class="fa fa-edit"></i> Edit this comment
                 </a>
                 <a href="{{ path('comment_delete', { commentId: comment.id, slug: post.slug }) }}" class="btn btn-primary btn-danger">
