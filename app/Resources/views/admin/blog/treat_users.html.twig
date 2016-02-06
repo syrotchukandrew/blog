@@ -16,6 +16,7 @@
         </thead>
         <tbody>
         {% for user in pagination %}
+            {% if "ROLE_ADMIN" not in user.roles %}
             <tr>
                 <td>{{ user.username }}</td>
                 <td>{% if user.isAccountNonLocked() %}
@@ -32,6 +33,7 @@
                 <td><a href="{{ path('no_moderator', { username: user.username }) }}" class="btn btn-primary btn-danger">
                         <i class="fa fa-edit"></i> Kill it</a></td>
             </tr>
+        {% endif %}
         {% endfor %}
         </tbody>
     </table>
