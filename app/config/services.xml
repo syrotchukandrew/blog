@@ -33,6 +33,7 @@
 
         <service id="app.comment_voter" class="AppBundle\Security\CommentVoter" public="false">
             <argument type="service" id="security.access.decision_manager"/>
+            <argument type="service" id="doctrine"/>
             <tag name="security.voter"/>
         </service>
 

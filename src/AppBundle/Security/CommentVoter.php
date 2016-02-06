@@ -7,6 +7,8 @@ use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 use AppBundle\Entity\Comment;
+use Doctrine\Bundle\DoctrineBundle\Registry;
+
 
 class CommentVoter extends Voter
 {
@@ -18,10 +20,13 @@ class CommentVoter extends Voter
      * @var AccessDecisionManagerInterface
      */
     private $decisionManager;
+    private $doctrine;
 
-    public function __construct(AccessDecisionManagerInterface $decisionManager)
+    public function __construct(AccessDecisionManagerInterface $decisionManager, Registry $doctrine)
     {
         $this->decisionManager = $decisionManager;
+        $this->doctrine = $doctrine;
+
     }
 
     protected function supports($attribute, $subject)
@@ -57,18 +62,32 @@ class CommentVoter extends Voter
 // if the user is the author of the comment or admin or moderator, allow them to edit the comments
                 if ($user->getEmail() === $comment->getAuthorEmail() ||
                     $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
-                $this->decisionManager->decide($token, array('ROLE_MODERATOR'))) {
+                    ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) && $this->canDoIt($comment->getAuthorEmail()))
+
+
+                ) {
                     return true;
                 }
                 break;
             case self::REMOVE:
 // if the user is the author of the comment or admin or moderator, allow them to edit the posts
                 if ($user->getEmail() === $comment->getAuthorEmail() ||
-                    $this->decisionManager->decide($token, array('ROLE_ADMIN', 'ROLE_MODERATOR'))) {
+                    $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
+                    ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) && $this->canDoIt($comment->getAuthorEmail()))
+                ) {
                     return true;
                 }
                 break;
         }
         return false;
+    }
+
+    private function canDoIt($email)
+    {
+        $user = $this->doctrine->getRepository('AppBundle:User')->findOneBy(array('email' => $email));
+        if (in_array("ROLE_ADMIN", $user->getRoles())) {
+            return false;
+        }
+        return true;
     }
 }

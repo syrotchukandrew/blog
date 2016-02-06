@@ -22,12 +22,6 @@ class PostType extends AbstractType
                 'attr' => array('autofocus' => true,),
                 'label' => 'Title',
             ))
-            ->add('authorEmail', EmailType::class, array(
-                'attr' => [
-                    'class' => 'form-control',
-                    'placeholder' => 'Add email'
-                ]
-            ))
             ->add('shortText', TextareaType::class, array(
                 'attr' => [
                     'placeholder' => 'Add text article',

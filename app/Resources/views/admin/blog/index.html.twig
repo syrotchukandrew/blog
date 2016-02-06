@@ -37,10 +37,64 @@
     </div>
 {% endblock %}
 {% block sidebar %}
+    <div class="well">
+        <h4>Search</h4>
+        <p>Start typing post's title</p>
+
+        <form action="{{ path('admin_livesearch') }}" method="post">
+            <div class="input-group">
+                <input type="search" class="form-control" name="slug" onkeyup="showResult(this.value)">
+        <span class="input-group-btn">
+                            <button class="btn btn-default" type="submit">
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </span>
+            </div>
+            <div id="livesearch"></div>
+        </form>
+
+    </div>
+
+    <script src="{{ asset('bundles/fosjsrouting/js/router.js') }}"></script>
+    <script src="{{ path('fos_js_routing_js', {'callback': 'fos.Router.setData'}) }}"></script>
+    <script>
+        function showResult(str) {
+            if (str.length == 0) {
+                document.getElementById("livesearch").innerHTML = "";
+                document.getElementById("livesearch").style.border = "0px";
+                return;
+            }
+            if (window.XMLHttpRequest) {
+                // code for IE7+, Firefox, Chrome, Opera, Safari
+                xmlhttp = new XMLHttpRequest();
+            } else {  // code for IE6, IE5
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xmlhttp.onreadystatechange = function () {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                    var parsed = JSON.parse(xmlhttp.responseText);
+                    var textDiv = '';
+                    for (var item in parsed) {
+                        if (!parsed.hasOwnProperty(item)) continue;
+                        var title = parsed[item];
+                        var url = Routing.generate('admin_post_show', {slug: item});
+                        textDiv = textDiv + "<a href=" + url + ">" + title + "</a><br>";
+                    }
+                    document.getElementById("livesearch").innerHTML = textDiv;
+                    document.getElementById("livesearch").style.border = "1px solid #A5ACB2";
+                }
+            };
+            var route = Routing.generate('admin_livesearch');
+            xmlhttp.open("GET", route + "?slug="+str, true);
+            xmlhttp.send();
+        }
+    </script>
     <div class="section actions">
         <a href="{{ path('admin_post_new') }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-plus"></i> Create post </a>
         <a href="{{ path('admin_tag_new') }}" class="btn btn-lg btn-block btn-success">
             <i class="fa fa-plus"></i> Create tag </a>
+        <a href="{{ path('treat_users') }}" class="btn btn-lg btn-block btn-success">
+            <i class="fa fa-plus"></i> Treat users </a>
     </div>
 {% endblock %}
