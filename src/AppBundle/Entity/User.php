@@ -3,7 +3,6 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-//use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
@@ -149,8 +148,6 @@ class User implements AdvancedUserInterface
         switch ($status) {
             case true:
                 return true;
-            case null:
-                return true;
             case false:
                 return false;
             default:
@@ -168,7 +165,7 @@ class User implements AdvancedUserInterface
         return true;
     }
 
-    public function setStatus($status = true)
+    public function setStatus($status)
     {
         $this->status = $status;
 

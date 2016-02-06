@@ -12,12 +12,12 @@ use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-
+use Symfony\Component\HttpFoundation\Response;
 
 
 /**
  * @Security("has_role('ROLE_ADMIN')")
- * @Route("/admin/post")
+ * @Route("/admin")
  */
 class BlogController extends Controller
 {
@@ -158,4 +158,36 @@ class BlogController extends Controller
             ->getForm()
         ;
     }
+
+    /**
+     * @Route("/users/treat_users", name="treat_users")
+     * @Method("GET")
+     */
+    public function treatUsersAction(Request $request)
+    {
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+        $paginator = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $users,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->render('admin/blog/treat_users.html.twig', array('pagination' => $pagination));
+    }
+
+    /**
+     * @Route("/users/lock_user/{username}", name="lock_user")
+     * @Method("GET")
+     */
+    public function lockUserAction(Request $request, $username)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
+        $user->setStatus(false);
+        $entityManager->flush();
+        return $this->redirectToRoute('treat_users');
+    }
+
 }
+
