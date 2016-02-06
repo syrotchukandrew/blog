@@ -25,11 +25,11 @@
                     {% endfor %}</td>
                 <td><a href="{{ path('lock_user', { username: user.username }) }}" class="btn btn-primary btn-danger">
                         <i class="fa fa-edit"></i> Lock it</a></td>
-                <td><a href="{{ path('homepage') }}" class="btn btn-primary btn-success">
+                <td><a href="{{ path('unlock_user', { username: user.username }) }}" class="btn btn-primary btn-success">
                         <i class="fa fa-edit"></i> Unlock     </a></td>
-                <td><a href="{{ path('homepage') }}" class="btn btn-primary btn-success">
+                <td><a href="{{ path('moderator', { username: user.username }) }}" class="btn btn-primary btn-success">
                         <i class="fa fa-edit"></i> Make it </a></td>
-                <td><a href="{{ path('homepage') }}" class="btn btn-primary btn-danger">
+                <td><a href="{{ path('no_moderator', { username: user.username }) }}" class="btn btn-primary btn-danger">
                         <i class="fa fa-edit"></i> Kill it</a></td>
             </tr>
         {% endfor %}

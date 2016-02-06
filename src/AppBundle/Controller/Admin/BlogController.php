@@ -95,7 +95,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/{slug}", name="admin_post_show")
+     * @Route("/{slug}", name="admin_post_show", options={"expose"=true})
      * @Method("GET")
      */
     public function showAction(Post $post)
@@ -189,5 +189,68 @@ class BlogController extends Controller
         return $this->redirectToRoute('treat_users');
     }
 
+    /**
+     * @Route("/users/unlock_user/{username}", name="unlock_user")
+     * @Method("GET")
+     */
+    public function unlockUserAction(Request $request, $username)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
+        $user->setStatus(true);
+        $entityManager->flush();
+        return $this->redirectToRoute('treat_users');
+    }
+
+    /**
+     * @Route("/users/moderator/{username}", name="moderator")
+     * @Method("GET")
+     */
+    public function moderatorAction(Request $request, $username)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
+        $user->setRoles(array('ROLE_MODERATOR'));
+        $entityManager->flush();
+        return $this->redirectToRoute('treat_users');
+    }
+
+    /**
+     * @Route("/users/nomoderator/{username}", name="no_moderator")
+     * @Method("GET")
+     */
+    public function noModeratorAction(Request $request, $username)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
+        $roles = $user->getRoles();
+        if (in_array("ROLE_MODERATOR", $roles)) {
+            $key = array_search("ROLE_MODERATOR", $roles);
+            $roles[$key] = 'ROLE_USER';
+            $user->setRoles($roles);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('treat_users');
+    }
+
+    /**
+     * @Route("/admin/livesearch", name="admin_livesearch", options={"expose"=true})
+     */
+    public function livesearchAction(Request $request)
+    {
+        if ($request->getMethod() === 'GET') {
+            return new Response(json_encode($this->get('app.searcher')->search()));
+        }
+        if ($request->getMethod() === 'POST') {
+            $paginator = $this->get('knp_paginator');
+            $pagination = $paginator->paginate(
+                $this->get('app.searcher')->search(),
+                $request->query->getInt('page', 1),
+                10
+            );
+            return $this->render('admin/blog/index.html.twig', array('pagination' => $pagination));
+        }
+    }
 }
 
