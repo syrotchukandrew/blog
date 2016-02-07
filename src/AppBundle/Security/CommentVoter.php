@@ -64,7 +64,7 @@ class CommentVoter extends Voter
                 if ($user->getEmail() === $comment->getAuthorEmail() ||
                     $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
                     ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) &&
-                        $this->canDoIt($comment, $user))
+                        $this->canYouDoIt($comment, $user))
                 ) {
                     return true;
                 }
@@ -74,7 +74,7 @@ class CommentVoter extends Voter
                 if ($user->getEmail() === $comment->getAuthorEmail() ||
                     $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
                     ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) &&
-                        $this->canDoIt($comment, $user)
+                        $this->canYouDoIt($comment, $user)
                     )) {
                     return true;
                 }
@@ -83,7 +83,7 @@ class CommentVoter extends Voter
         return false;
     }
 
-    private function canDoIt(Comment $comment, User $user)
+    private function canYouDoIt(Comment $comment, User $user)
     {
         $commentOwner = $this->doctrine->getRepository('AppBundle:User')->
         findOneBy(array('email' => $comment->getAuthorEmail()));
