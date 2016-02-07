@@ -2,6 +2,7 @@
 
 namespace AppBundle\Security;
 
+use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -63,7 +64,7 @@ class CommentVoter extends Voter
                 if ($user->getEmail() === $comment->getAuthorEmail() ||
                     $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
                     ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) &&
-                        $this->canDoIt($comment->getAuthorEmail(), $comment->getPost(), $user->getUsername()))
+                        $this->canDoIt($comment, $user))
                 ) {
                     return true;
                 }
@@ -73,8 +74,8 @@ class CommentVoter extends Voter
                 if ($user->getEmail() === $comment->getAuthorEmail() ||
                     $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
                     ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) &&
-                        $this->canDoIt($comment->getAuthorEmail(), $comment->getPost(), $user->getUsername()))
-                ) {
+                        $this->canDoIt($comment, $user)
+                    )) {
                     return true;
                 }
                 break;
@@ -82,17 +83,12 @@ class CommentVoter extends Voter
         return false;
     }
 
-    private function canDoIt($email, $postId, $username)
+    private function canDoIt(Comment $comment, User $user)
     {
-        $post = $this->doctrine->getRepository('AppBundle:Post')->
-        findOneBy(array('id' => $postId));
-        $authorEmailPost = $post->getAuthorEmail();
-        $userOwnerComment = $this->doctrine->getRepository('AppBundle:User')->
-        findOneBy(array('email' => $email));
-        $userOwnerPost = $this->doctrine->getRepository('AppBundle:User')->
-        findOneBy(array('username' => $username));
-        if (in_array("ROLE_ADMIN", $userOwnerComment->getRoles()) ||
-            $userOwnerPost->getEmail() !== $authorEmailPost) {
+        $commentOwner = $this->doctrine->getRepository('AppBundle:User')->
+        findOneBy(array('email' => $comment->getAuthorEmail()));
+        if (in_array("ROLE_ADMIN", $commentOwner->getRoles()) ||
+            $comment->getPost()->getAuthorEmail() !== $user->getEmail()) {
             return false;
         }
         return true;
