@@ -62,18 +62,18 @@ class CommentVoter extends Voter
 // if the user is the author of the comment or admin or moderator, allow them to edit the comments
                 if ($user->getEmail() === $comment->getAuthorEmail() ||
                     $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
-                    ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) && $this->canDoIt($comment->getAuthorEmail()))
-
-
+                    ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) &&
+                        $this->canDoIt($comment->getAuthorEmail(), $comment->getPost(), $user->getUsername()))
                 ) {
                     return true;
                 }
                 break;
             case self::REMOVE:
-// if the user is the author of the comment or admin or moderator, allow them to edit the posts
+// if the user is the author of the comment or admin or moderator, allow them to edit the posts in the some order
                 if ($user->getEmail() === $comment->getAuthorEmail() ||
                     $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
-                    ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) && $this->canDoIt($comment->getAuthorEmail()))
+                    ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) &&
+                        $this->canDoIt($comment->getAuthorEmail(), $comment->getPost(), $user->getUsername()))
                 ) {
                     return true;
                 }
@@ -82,10 +82,17 @@ class CommentVoter extends Voter
         return false;
     }
 
-    private function canDoIt($email)
+    private function canDoIt($email, $postId, $username)
     {
-        $user = $this->doctrine->getRepository('AppBundle:User')->findOneBy(array('email' => $email));
-        if (in_array("ROLE_ADMIN", $user->getRoles())) {
+        $post = $this->doctrine->getRepository('AppBundle:Post')->
+        findOneBy(array('id' => $postId));
+        $authorEmailPost = $post->getAuthorEmail();
+        $userOwnerComment = $this->doctrine->getRepository('AppBundle:User')->
+        findOneBy(array('email' => $email));
+        $userOwnerPost = $this->doctrine->getRepository('AppBundle:User')->
+        findOneBy(array('username' => $username));
+        if (in_array("ROLE_ADMIN", $userOwnerComment->getRoles()) ||
+            $userOwnerPost->getEmail() !== $authorEmailPost) {
             return false;
         }
         return true;
