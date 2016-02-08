@@ -20,7 +20,7 @@ security:
                 csrf_token_generator: security.csrf.token_manager
 
             logout:
-                path: security_logout
+                path: logout
                 target: homepage
 
         dev:
