@@ -55,5 +55,11 @@ class SecurityController extends Controller
         throw new \Exception('This should never be reached!');
     }
 
+    /**
+     * @Route("/login-social", name="facebook_login_social")
+     */
+    public function loginSocialAction()
+    {
 
+    }
 }
