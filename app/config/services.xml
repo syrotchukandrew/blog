@@ -41,6 +41,7 @@
             <argument type="service" id="fos_user.user_manager"/>
             <argument type="collection">
                 <argument key="facebook">facebookId</argument>
+                <argument key="google">googleId</argument>
             </argument>
         </service>
 

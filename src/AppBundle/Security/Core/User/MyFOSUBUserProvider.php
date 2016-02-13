@@ -17,8 +17,8 @@ class MyFOSUBUserProvider extends BaseClass
      */
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
-        $socialID = $response->getUsername();
-        $user = $this->userManager->findUserBy(array($this->getProperty($response)=>$socialID));
+        $socialId = $response->getUsername();
+        $user = $this->userManager->findUserBy(array($this->getProperty($response)=>$socialId));
         $email = $response->getEmail();
         //check if the user already has the corresponding social account
         if (null === $user) {
@@ -38,10 +38,10 @@ class MyFOSUBUserProvider extends BaseClass
             $service = $response->getResourceOwner()->getName();
             switch ($service) {
                 case 'google':
-                    $user->setGoogleID($socialID);
+                    $user->setGoogleId($socialId);
                     break;
                 case 'facebook':
-                    $user->setFacebookID($socialID);
+                    $user->setFacebookId($socialId);
                     break;
             }
             $this->userManager->updateUser($user);
