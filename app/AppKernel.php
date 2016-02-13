@@ -22,6 +22,10 @@ class AppKernel extends Kernel
             new Liip\ImagineBundle\LiipImagineBundle(),
             new FOS\JsRoutingBundle\FOSJsRoutingBundle(),
             new Knp\Bundle\MenuBundle\KnpMenuBundle(),
+            new HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+
+
 
 
 

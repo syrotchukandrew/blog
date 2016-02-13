@@ -5,55 +5,61 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use FOS\UserBundle\Model\User as BaseUser;
+
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Email already taken")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
-class User implements AdvancedUserInterface
+class User extends BaseUser
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    protected $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      */
-    private $username;
+   // protected $username;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Assert\Email()
      */
-    private $email;
+   // protected $email;
 
     /**
      * @Assert\NotBlank()
      * @Assert\Length(max = 4096)
      */
-    private $plainPassword;
+    protected $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=64)
      */
-    private $password;
+   // protected $password;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $status;
+   // protected $status;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
      */
-    private $roles = array();
+    private $facebookId;
+
+    private $facebookAccessToken;
+
+
+   // protected $roles = array();
 
     public function getId()
     {
@@ -61,27 +67,65 @@ class User implements AdvancedUserInterface
     }
 
     /**
+     * @param string $facebookId
+     * @return User
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param string $facebookAccessToken
+     * @return User
+     */
+    public function setFacebookAccessToken($facebookAccessToken)
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebookAccessToken;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function getUsername()
+   /* public function getUsername()
     {
         return $this->username;
-    }
+    }*/
 
     public function setUsername($username)
     {
         $this->username = $username;
     }
 
-    public function getEmail()
+   /* public function getEmail()
     {
         return $this->email;
-    }
+    }*/
 
-    public function setEmail($email)
+    /*public function setEmail($email)
     {
         $this->email = $email;
-    }
+    }*/
 
     public function getPlainPassword()
     {
@@ -96,7 +140,7 @@ class User implements AdvancedUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getPassword()
+    /*public function getPassword()
     {
         return $this->password;
     }
@@ -104,7 +148,7 @@ class User implements AdvancedUserInterface
     public function setPassword($password)
     {
         $this->password = $password;
-    }
+    }*/
 
     /**
      * Returns the roles or permissions granted to the user for security.
@@ -142,9 +186,9 @@ class User implements AdvancedUserInterface
         return true;
     }
 
-    public function isAccountNonLocked()
+  /*  public function isAccountNonLocked()
     {
-        $status = $this->getStatus();
+        $status = parent::isAccountNonLocked();
         switch ($status) {
             case true:
                 return true;
@@ -153,7 +197,7 @@ class User implements AdvancedUserInterface
             default:
                 return true;
         }
-    }
+    }*/
 
     public function isCredentialsNonExpired()
     {
@@ -165,7 +209,7 @@ class User implements AdvancedUserInterface
         return true;
     }
 
-    public function setStatus($status)
+    /*public function setStatus($status)
     {
         $this->status = $status;
 
@@ -174,5 +218,5 @@ class User implements AdvancedUserInterface
     public function getStatus()
     {
         return $this->status;
-    }
+    }*/
 }
