@@ -14,6 +14,9 @@ facebook_login:
 google_login:
     path: /login/check-google
 
+vkontakte_login:
+    path: /login/check-vkontakte
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

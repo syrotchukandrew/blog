@@ -23,33 +23,10 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     */
-   // protected $username;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     */
-   // protected $email;
-
-    /**
      * @Assert\NotBlank()
      * @Assert\Length(max = 4096)
      */
     protected $plainPassword;
-
-    /**
-     * @ORM\Column(type="string", length=64)
-     */
-   // protected $password;
-
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-   // protected $status;
 
     /**
      * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
@@ -61,12 +38,16 @@ class User extends BaseUser
      */
     protected $googleId;
 
+    /**
+     * @ORM\Column(name="vkontakte_id", type="string", length=255, nullable=true)
+     */
+    protected $vkontakteId;
+
     protected $facebookAccessToken;
 
     protected $googleAccessToken;
 
-
-   // protected $roles = array();
+    protected $vkontakteAccessToken;
 
     public function getId()
     {
@@ -110,6 +91,45 @@ class User extends BaseUser
     {
         return $this->facebookAccessToken;
     }
+
+    /**
+     * @param string $vkontakteId
+     * @return User
+     */
+    public function setVkontakteId($vkontakteId)
+    {
+        $this->vkontakteId = $vkontakteId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVkontakteId()
+    {
+        return $this->vkontakteId;
+    }
+
+    /**
+     * @param string $vkontakteAccessToken
+     * @return User
+     */
+    public function setVkontakteAccessToken($vkontakteAccessToken)
+    {
+        $this->vkontakteAccessToken = $vkontakteAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVkontakteAccessToken()
+    {
+        return $this->vkontakteAccessToken;
+    }
+
 
     /**
      * @param string $googleId

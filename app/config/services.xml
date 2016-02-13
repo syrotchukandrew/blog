@@ -42,6 +42,7 @@
             <argument type="collection">
                 <argument key="facebook">facebookId</argument>
                 <argument key="google">googleId</argument>
+                <argument key="vkontakte">vkontakteId</argument>
             </argument>
         </service>
 

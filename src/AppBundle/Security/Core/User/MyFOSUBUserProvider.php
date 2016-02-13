@@ -28,8 +28,11 @@ class MyFOSUBUserProvider extends BaseClass
             if (null === $user || !$user instanceof UserInterface) {
                 //if the user does not have a normal account, set it up:
                 $user = $this->userManager->createUser();
-                $user->setUsername($response->getNickname());
-
+                if ($response->getResourceOwner()->getName() == 'vkontakte') {
+                    $user->setUsername($response->getLastName().' '.$response->getFirstName());
+                } else {
+                    $user->setUsername($response->getNickname());
+                }
                 $user->setEmail($email);
                 $user->setPlainPassword(md5(uniqid()));
                 $user->setEnabled(true);
@@ -42,6 +45,9 @@ class MyFOSUBUserProvider extends BaseClass
                     break;
                 case 'facebook':
                     $user->setFacebookId($socialId);
+                    break;
+                case 'vkontakte':
+                    $user->setVkontakteId($socialId);
                     break;
             }
             $this->userManager->updateUser($user);

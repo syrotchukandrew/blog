@@ -146,6 +146,12 @@ hwi_oauth:
             paths:
                 email: email
 
+        vkontakte:
+            type:                vkontakte
+            client_id:           5292714
+            client_secret:       I83oCscAWYsehAxgNAzk
+            scope:               email status
+
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
