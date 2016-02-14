@@ -37,7 +37,7 @@ class Comment
     private $authorEmail;
 
     /**
-     * @ORM\Column(name="content", type="text")
+     * @ORM\Column(type="text")
      * @Assert\NotBlank(message="comment.blank")
      * @Assert\Length(
      *     min = "5",

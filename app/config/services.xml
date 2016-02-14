@@ -20,6 +20,7 @@
 
         <service id="app.twig_extension" class="AppBundle\Twig\AppExtension" public="false">
             <tag name="twig.extension"/>
+            <argument>%app_locales%</argument>
         </service>
 
         <service id="app.image_subscriber" class="AppBundle\EventListener\ImageEventSubscriber">
@@ -44,6 +45,13 @@
                 <argument key="google">googleId</argument>
                 <argument key="vkontakte">vkontakteId</argument>
             </argument>
+        </service>
+
+        <service id="app.redirect_to_preferred_locale_listener" class="AppBundle\EventListener\RedirectToPreferredLocaleListener">
+            <argument type="service" id="router"/>
+            <argument>%app_locales%</argument>
+            <argument>%locale%</argument>
+            <tag name="kernel.event_listener" event="kernel.request" method="onKernelRequest"/>
         </service>
 
     </services>
