@@ -7,10 +7,11 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    app_locales: en|uk
 
 framework:
     #esi:             ~
-    #translator:      { fallbacks: ["%locale%"] }
+    translator:      { fallbacks: ["%locale%"] }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -115,3 +116,49 @@ knp_menu:
     templating: false
     # the renderer to use, list is also available by default
     default_renderer: twig
+
+hwi_oauth:
+    connect:
+        account_connector: my.custom.user_provider
+    firewall_names: [main]
+    fosub:
+        username_iterations: 30
+        properties:
+            facebook:    facebook_id
+    resource_owners:
+        facebook:
+            type:                facebook
+            client_id:           1691658947740414
+            client_secret:       b1e399e8aa4083e767186b3b7fee2e76
+            options:
+                display:    popup
+            csrf:                true
+            scope:               "email"
+            infos_url:     "https://graph.facebook.com/me?fields=id,name,email,picture.type(square)"
+            paths:
+                email:     email
+                profilepicture: picture.data.url
+
+        google:
+            type:                google
+            client_id:           577596914088-hns61ctor2bm7m7jmivcb8a590f84b10.apps.googleusercontent.com
+            client_secret:       fI-hygAGiPe5V9pfzE-R91pW
+            scope:              "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
+            paths:
+                email: email
+
+        vkontakte:
+            type:                vkontakte
+            client_id:           5292714
+            client_secret:       I83oCscAWYsehAxgNAzk
+            scope:               email status
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: AppBundle\Entity\User
+
+services:
+    fos_user.doctrine_registry:
+        alias: doctrine
+

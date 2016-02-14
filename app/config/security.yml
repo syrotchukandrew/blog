@@ -1,11 +1,18 @@
 security:
     encoders:
-        AppBundle\Entity\User: bcrypt
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_MODERATOR:    ROLE_USER
+        ROLE_ADMIN:        ROLE_MODERATOR
 
     providers:
-        blog_database_users:
-            entity:
-                class: AppBundle:User
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    providers:
+        hwi:
+            id: my.custom.user_provider
 
 
     firewalls:
@@ -15,12 +22,25 @@ security:
             anonymous: true
 
             form_login:
+                provider: fos_userbundle
                 check_path: security_login_check
                 login_path: security_login_form
                 csrf_token_generator: security.csrf.token_manager
 
+            oauth:
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    google:             "/login/check-google"
+                    vkontakte:          "/login/check-vkontakte"
+                login_path:        /login
+                use_forward:       false
+                failure_path:      /login
+
+                oauth_user_provider:
+                    service: my.custom.user_provider
+
             logout:
-                path: security_logout
+                path: logout
                 target: homepage
 
         dev:
@@ -28,5 +48,9 @@ security:
             security: false
 
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin/, role: ROLE_ADMIN }
+
 

@@ -1,6 +1,37 @@
+hwi_oauth_login:
+    resource: "@HWIOAuthBundle/Resources/config/routing/login.xml"
+    prefix:   /login-social
+hwi_oauth_redirect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
+    prefix:   /connect
+hwi_oauth_connect:
+    resource: "@HWIOAuthBundle/Resources/config/routing/connect.xml"
+    prefix:   /connect
+
+facebook_login:
+    path: /login/check-facebook
+
+google_login:
+    path: /login/check-google
+
+vkontakte_login:
+    path: /login/check-vkontakte
+
 app:
-    resource: "@AppBundle/Controller/"
+    resource: @AppBundle/Controller/
     type:     annotation
+    prefix:   /{_locale}
+    requirements:
+        _locale: %app_locales%
+    defaults:
+        _locale: %locale%
+
+homepage:
+    path:      /{_locale}
+    defaults:  { _controller: AppBundle:Blog:index, _locale: en }
+    requirements:
+        _locale:  en|uk
+
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
@@ -11,3 +42,5 @@ fos_js_routing:
 logout:
     path: /logout
 
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"

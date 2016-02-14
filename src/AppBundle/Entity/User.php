@@ -5,55 +5,49 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use FOS\UserBundle\Model\User as BaseUser;
+
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Email already taken")
  * @UniqueEntity(fields="username", message="Username already taken")
  */
-class User implements AdvancedUserInterface
+class User extends BaseUser
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     */
-    private $username;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     */
-    private $email;
+    protected $id;
 
     /**
      * @Assert\NotBlank()
      * @Assert\Length(max = 4096)
      */
-    private $plainPassword;
+    protected $plainPassword;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
      */
-    private $password;
+    protected $facebookId;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(name="google_id", type="string", length=255, nullable=true)
      */
-    private $status;
+    protected $googleId;
 
     /**
-     * @ORM\Column(type="json_array")
+     * @ORM\Column(name="vkontakte_id", type="string", length=255, nullable=true)
      */
-    private $roles = array();
+    protected $vkontakteId;
+
+    protected $facebookAccessToken;
+
+    protected $googleAccessToken;
+
+    protected $vkontakteAccessToken;
 
     public function getId()
     {
@@ -61,27 +55,143 @@ class User implements AdvancedUserInterface
     }
 
     /**
+     * @param string $facebookId
+     * @return User
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param string $facebookAccessToken
+     * @return User
+     */
+    public function setFacebookAccessToken($facebookAccessToken)
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebookAccessToken;
+    }
+
+    /**
+     * @param string $vkontakteId
+     * @return User
+     */
+    public function setVkontakteId($vkontakteId)
+    {
+        $this->vkontakteId = $vkontakteId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVkontakteId()
+    {
+        return $this->vkontakteId;
+    }
+
+    /**
+     * @param string $vkontakteAccessToken
+     * @return User
+     */
+    public function setVkontakteAccessToken($vkontakteAccessToken)
+    {
+        $this->vkontakteAccessToken = $vkontakteAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVkontakteAccessToken()
+    {
+        return $this->vkontakteAccessToken;
+    }
+
+
+    /**
+     * @param string $googleId
+     * @return User
+     */
+    public function setGoogleId($googleId)
+    {
+        $this->googleId = $googleId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGoogleId()
+    {
+        return $this->googleId;
+    }
+
+    /**
+     * @param string $googleAccessToken
+     * @return User
+     */
+    public function setGoogleAccessToken($googleAccessToken)
+    {
+        $this->googleAccessToken = $googleAccessToken;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGoogleAccessToken()
+    {
+        return $this->googleAccessToken;
+    }
+
+
+    /**
      * {@inheritdoc}
      */
-    public function getUsername()
+   /* public function getUsername()
     {
         return $this->username;
-    }
+    }*/
 
     public function setUsername($username)
     {
         $this->username = $username;
     }
 
-    public function getEmail()
+   /* public function getEmail()
     {
         return $this->email;
-    }
+    }*/
 
-    public function setEmail($email)
+    /*public function setEmail($email)
     {
         $this->email = $email;
-    }
+    }*/
 
     public function getPlainPassword()
     {
@@ -96,7 +206,7 @@ class User implements AdvancedUserInterface
     /**
      * {@inheritdoc}
      */
-    public function getPassword()
+    /*public function getPassword()
     {
         return $this->password;
     }
@@ -104,7 +214,7 @@ class User implements AdvancedUserInterface
     public function setPassword($password)
     {
         $this->password = $password;
-    }
+    }*/
 
     /**
      * Returns the roles or permissions granted to the user for security.
@@ -142,9 +252,9 @@ class User implements AdvancedUserInterface
         return true;
     }
 
-    public function isAccountNonLocked()
+  /*  public function isAccountNonLocked()
     {
-        $status = $this->getStatus();
+        $status = parent::isAccountNonLocked();
         switch ($status) {
             case true:
                 return true;
@@ -153,7 +263,7 @@ class User implements AdvancedUserInterface
             default:
                 return true;
         }
-    }
+    }*/
 
     public function isCredentialsNonExpired()
     {
@@ -165,7 +275,7 @@ class User implements AdvancedUserInterface
         return true;
     }
 
-    public function setStatus($status)
+    /*public function setStatus($status)
     {
         $this->status = $status;
 
@@ -174,5 +284,5 @@ class User implements AdvancedUserInterface
     public function getStatus()
     {
         return $this->status;
-    }
+    }*/
 }

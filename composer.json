@@ -28,7 +28,8 @@
         "liip/imagine-bundle": "^1.4",
         "friendsofsymfony/user-bundle": "~2.0@dev",
         "friendsofsymfony/jsrouting-bundle": "^1.5",
-        "knplabs/knp-menu-bundle": "^2.0"
+        "knplabs/knp-menu-bundle": "^2.0",
+        "hwi/oauth-bundle": "^0.4.0"
 
     },
     "require-dev": {

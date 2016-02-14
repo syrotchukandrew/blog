@@ -184,7 +184,7 @@ class BlogController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
-        $user->setStatus(false);
+        $user->setLocked(true);
         $entityManager->flush();
         return $this->redirectToRoute('treat_users');
     }
@@ -197,7 +197,7 @@ class BlogController extends Controller
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
-        $user->setStatus(true);
+        $user->setLocked(false);
         $entityManager->flush();
         return $this->redirectToRoute('treat_users');
     }
