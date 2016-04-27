@@ -55,15 +55,17 @@ class PostVoter extends Voter
                 break;
             case self::EDIT:
 // if the user is the author of the post, allow them to edit the posts
-                if ($user->getEmail() === $post->getAuthorEmail() ||
-                    $this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
+                if ($post->isAuthor($user) ||
+                    $this->decisionManager->decide($token, array('ROLE_ADMIN'))
+                ) {
                     return true;
                 }
                 break;
             case self::REMOVE:
 // if the user is the author of the post, allow them to edit the posts
-                if ($user->getEmail() === $post->getAuthorEmail() ||
-                $this->decisionManager->decide($token, array('ROLE_ADMIN'))) {
+                if ($post->isAuthor($user) ||
+                    $this->decisionManager->decide($token, array('ROLE_ADMIN'))
+                ) {
                     return true;
                 }
                 break;

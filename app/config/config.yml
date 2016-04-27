@@ -65,6 +65,7 @@ stof_doctrine_extensions:
         default:
             timestampable: true
             sluggable: true
+            blameable: true
 
 # Swiftmailer Configuration
 swiftmailer:

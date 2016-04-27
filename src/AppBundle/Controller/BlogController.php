@@ -18,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use AppBundle\Form\PostType;
 
 
-
 class BlogController extends Controller
 {
     /**
@@ -104,8 +103,8 @@ class BlogController extends Controller
             return $this->redirectToRoute('blog_post', array('slug' => $slug));
         }
         return $this->render('blog/comment_edit.html.twig', array(
-            'comment'        => $comment,
-            'edit_form'   => $editForm->createView(),
+            'comment' => $comment,
+            'edit_form' => $editForm->createView(),
         ));
     }
 
@@ -261,8 +260,8 @@ class BlogController extends Controller
             return $this->redirectToRoute('blog_post', array('slug' => $post->getSlug()));
         }
         return $this->render('blog/edit.html.twig', array(
-            'post'        => $post,
-            'edit_form'   => $editForm->createView(),
+            'post' => $post,
+            'edit_form' => $editForm->createView(),
         ));
     }
 

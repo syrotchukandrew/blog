@@ -46,7 +46,7 @@
             }
         };
         var route = Routing.generate('livesearch');
-        xmlhttp.open("GET", route + "?slug="+str, true);
+        xmlhttp.open("GET", route + "?slug=" + str, true);
         xmlhttp.send();
     }
 </script>
@@ -64,6 +64,7 @@
                 </a>
             </span>
             {% else %}
+
         <p>There are no tags</p>
         {% endfor %}
         </p>

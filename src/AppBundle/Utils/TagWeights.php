@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acer
- * Date: 27/01/16
- * Time: 16:36
- */
 
 namespace AppBundle\Utils;
 
@@ -34,8 +28,7 @@ class TagWeights
         }
         $max = max($tagWeights);
         $multiplier = ($max > 5) ? 5 / $max : 1;
-        foreach ($tagWeights as &$tag)
-        {
+        foreach ($tagWeights as &$tag) {
             $tag = ceil($tag * $multiplier);
         }
         return $tagWeights;

@@ -15,11 +15,12 @@
                         <legend><i class="fa fa-lock"></i>Login form</legend>
                         <div class="form-group">
                             <label for="username">Enter your username or email</label>
-                            <input type="text" id="username" name="_username" value="{{ last_username }}" class="form-control"/>
+                            <input type="text" id="username" name="_username" value="{{ last_username }}"
+                                   class="form-control"/>
                         </div>
                         <div class="form-group">
                             <label for="password">Enter your password</label>
-                            <input type="password" id="password" name="_password" class="form-control" />
+                            <input type="password" id="password" name="_password" class="form-control"/>
                         </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Login</button>
@@ -30,34 +31,37 @@
             {% block content %}
                 <div id="fb-root"></div>
                 <script>
-                    window.fbAsyncInit = function() {
+                    window.fbAsyncInit = function () {
                         // init the FB JS SDK
                         FB.init({
-                            appId      : '12345678910',                        // App ID from the app dashboard
-                            channelUrl : '//yourdomain.com/channel.html',      // Channel file for x-domain comms
-                            status     : true,                                 // Check Facebook Login status
-                            xfbml      : true                                  // Look for social plugins on the page
+                            appId: '12345678910',                        // App ID from the app dashboard
+                            channelUrl: '//yourdomain.com/channel.html',      // Channel file for x-domain comms
+                            status: true,                                 // Check Facebook Login status
+                            xfbml: true                                  // Look for social plugins on the page
                         });
                     };
 
                     // Load the SDK asynchronously
-                    (function(d, s, id){
+                    (function (d, s, id) {
                         var js, fjs = d.getElementsByTagName(s)[0];
-                        if (d.getElementById(id)) {return;}
-                        js = d.createElement(s); js.id = id;
+                        if (d.getElementById(id)) {
+                            return;
+                        }
+                        js = d.createElement(s);
+                        js.id = id;
                         js.src = "//connect.facebook.net/en_US/all.js";
                         fjs.parentNode.insertBefore(js, fjs);
                     }(document, 'script', 'facebook-jssdk'));
 
                     function fb_login() {
-                        FB.getLoginStatus(function(response) {
+                        FB.getLoginStatus(function (response) {
                             if (response.status === 'connected') {
                                 // connected
                                 alert('Already connected, redirect to login page to create token.');
                                 document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
                             } else {
                                 // not_authorized
-                                FB.login(function(response) {
+                                FB.login(function (response) {
                                     if (response.authResponse) {
                                         document.location = "{{ url("hwi_oauth_service_redirect", {service: "facebook"}) }}";
                                     } else {
@@ -88,7 +92,8 @@
                     // The ID token you need to pass to your backend:
                     var id_token = googleUser.getAuthResponse().id_token;
                     console.log("ID Token: " + id_token);
-                };
+                }
+                ;
             </script>
 
         </div>
@@ -153,7 +158,7 @@
     {{ parent() }}
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('#username').val('user_admin');
             $('#password').val('qweasz');
         });

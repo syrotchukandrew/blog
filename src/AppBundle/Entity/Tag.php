@@ -169,8 +169,6 @@ class Tag
         return $this->updated;
     }
 
-    
-
     /**
      * Add post
      *

@@ -10,16 +10,12 @@ use Symfony\Component\HttpFoundation\File\File;
 
 
 /**
- * Post
- *
  * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  */
 class Post
 {
     /**
-     * @var int
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -27,7 +23,6 @@ class Post
     private $id;
 
     /**
-     * @var string
      * @Assert\NotBlank()
      * @ORM\Column(name="title", type="string", length=255)
      */
@@ -40,7 +35,6 @@ class Post
     private $authorEmail;
 
     /**
-     * @var string
      * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(name="slug", type="string", length=255)
      */
@@ -62,11 +56,6 @@ class Post
      *              Allowed mime types are {{ types }}")
      */
     private $imageName;
-
-    /**
-     * @ORM\Column(type="datetime")
-     * @var \DateTime
-     */
 
     /**
      * @var string
@@ -135,7 +124,6 @@ class Post
         $this->tags = new ArrayCollection();
     }
 
-
     /**
      * Get id
      *
@@ -144,6 +132,16 @@ class Post
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
     }
 
     /**
@@ -161,13 +159,15 @@ class Post
     }
 
     /**
-     * Get title
+     * Is the given User the author of this Post?
      *
-     * @return string
+     * @param User $user
+     *
+     * @return bool
      */
-    public function getTitle()
+    public function isAuthor(User $user)
     {
-        return $this->title;
+        return $user->getEmail() == $this->getAuthorEmail();
     }
 
     public function getAuthorEmail()
@@ -181,15 +181,13 @@ class Post
     }
 
     /**
-     * Is the given User the author of this Post?
+     * Get slug
      *
-     * @param User $user
-     *
-     * @return bool
+     * @return string
      */
-    public function isAuthor(User $user)
+    public function getSlug()
     {
-        return $user->getEmail() == $this->getAuthorEmail();
+        return $this->slug;
     }
 
     /**
@@ -207,13 +205,13 @@ class Post
     }
 
     /**
-     * Get slug
+     * Get content
      *
      * @return string
      */
-    public function getSlug()
+    public function getContent()
     {
-        return $this->slug;
+        return $this->content;
     }
 
     /**
@@ -231,13 +229,13 @@ class Post
     }
 
     /**
-     * Get content
+     * Get created
      *
-     * @return string
+     * @return \DateTime
      */
-    public function getContent()
+    public function getCreated()
     {
-        return $this->content;
+        return $this->created;
     }
 
     /**
@@ -255,13 +253,13 @@ class Post
     }
 
     /**
-     * Get created
+     * Get updated
      *
      * @return \DateTime
      */
-    public function getCreated()
+    public function getUpdated()
     {
-        return $this->created;
+        return $this->updated;
     }
 
     /**
@@ -279,13 +277,13 @@ class Post
     }
 
     /**
-     * Get updated
+     * Get contentChanged
      *
      * @return \DateTime
      */
-    public function getUpdated()
+    public function getContentChanged()
     {
-        return $this->updated;
+        return $this->contentChanged;
     }
 
     /**
@@ -303,13 +301,13 @@ class Post
     }
 
     /**
-     * Get contentChanged
+     * Get marks
      *
-     * @return \DateTime
+     * @return array
      */
-    public function getContentChanged()
+    public function getMarks()
     {
-        return $this->contentChanged;
+        return $this->marks;
     }
 
     /**
@@ -324,16 +322,6 @@ class Post
         $this->marks = $marks;
 
         return $this;
-    }
-
-    /**
-     * Get marks
-     *
-     * @return array
-     */
-    public function getMarks()
-    {
-        return $this->marks;
     }
 
     public function addMark($mark)
@@ -358,6 +346,20 @@ class Post
     }
 
     /**
+     * Set rating
+     *
+     * @param float $rating
+     *
+     * @return Post
+     */
+    public function setRating($rating)
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    /**
      * Add comment
      *
      * @param \AppBundle\Entity\Comment $comment
@@ -372,16 +374,6 @@ class Post
     }
 
     /**
-     * Remove comment
-     *
-     * @param \AppBundle\Entity\Comment $comment
-     */
-    public function removeComment(\AppBundle\Entity\Comment $comment)
-    {
-        $this->comments->removeElement($comment);
-    }
-
-    /**
      * Get comments
      *
      * @return \Doctrine\Common\Collections\Collection
@@ -389,6 +381,16 @@ class Post
     public function getComments()
     {
         return $this->comments;
+    }
+
+    /**
+     * Remove comment
+     *
+     * @param \AppBundle\Entity\Comment $comment
+     */
+    public function removeComment(\AppBundle\Entity\Comment $comment)
+    {
+        $this->comments->removeElement($comment);
     }
 
     /**
@@ -406,6 +408,16 @@ class Post
     }
 
     /**
+     * Get tags
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
      * Remove tag
      *
      * @param \AppBundle\Entity\Tag $tag
@@ -416,13 +428,13 @@ class Post
     }
 
     /**
-     * Get tags
+     * Get shortText
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return string
      */
-    public function getTags()
+    public function getShortText()
     {
-        return $this->tags;
+        return $this->shortText;
     }
 
     /**
@@ -440,27 +452,11 @@ class Post
     }
 
     /**
-     * Get shortText
-     *
      * @return string
      */
-    public function getShortText()
+    public function getImageFile()
     {
-        return $this->shortText;
-    }
-
-    /**
-     * Set rating
-     *
-     * @param float $rating
-     *
-     * @return Post
-     */
-    public function setRating($rating)
-    {
-        $this->rating = $rating;
-
-        return $this;
+        return $this->imageFile;
     }
 
     /**
@@ -476,9 +472,9 @@ class Post
     /**
      * @return string
      */
-    public function getImageFile()
+    public function getImageName()
     {
-        return $this->imageFile;
+        return $this->imageName;
     }
 
     /**
@@ -487,13 +483,5 @@ class Post
     public function setImageName($imageName)
     {
         $this->imageName = $imageName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getImageName()
-    {
-        return $this->imageName;
     }
 }

@@ -17,7 +17,9 @@
             <th>Foto</th>
             <td>
                 {% if post.imageName %}
-                    <img class="img-responsive" src={{ asset("#{post.imageName}") | imagine_filter('my_post') }} alt="foto" style="float: left">
+                    <img class="img-responsive"
+                         src={{ asset("#{post.imageName}") | imagine_filter('my_post') }} alt="foto"
+                         style="float: left">
                 {% endif %}
             </td>
         </tr>
@@ -49,7 +51,7 @@
             <i class="fa fa-edit"></i> Edit
         </a>
     </div>
-<br>
+    <br>
     <div class="section">
         {{ include('admin/blog/_form.html.twig', {
             form: delete_form,

@@ -130,7 +130,6 @@ class User extends BaseUser
         return $this->vkontakteAccessToken;
     }
 
-
     /**
      * @param string $googleId
      * @return User
@@ -169,29 +168,14 @@ class User extends BaseUser
         return $this->googleAccessToken;
     }
 
-
     /**
      * {@inheritdoc}
      */
-   /* public function getUsername()
-    {
-        return $this->username;
-    }*/
 
     public function setUsername($username)
     {
         $this->username = $username;
     }
-
-   /* public function getEmail()
-    {
-        return $this->email;
-    }*/
-
-    /*public function setEmail($email)
-    {
-        $this->email = $email;
-    }*/
 
     public function getPlainPassword()
     {
@@ -202,19 +186,6 @@ class User extends BaseUser
     {
         $this->plainPassword = $password;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    /*public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }*/
 
     /**
      * Returns the roles or permissions granted to the user for security.
@@ -252,19 +223,6 @@ class User extends BaseUser
         return true;
     }
 
-  /*  public function isAccountNonLocked()
-    {
-        $status = parent::isAccountNonLocked();
-        switch ($status) {
-            case true:
-                return true;
-            case false:
-                return false;
-            default:
-                return true;
-        }
-    }*/
-
     public function isCredentialsNonExpired()
     {
         return true;
@@ -274,15 +232,4 @@ class User extends BaseUser
     {
         return true;
     }
-
-    /*public function setStatus($status)
-    {
-        $this->status = $status;
-
-    }
-
-    public function getStatus()
-    {
-        return $this->status;
-    }*/
 }

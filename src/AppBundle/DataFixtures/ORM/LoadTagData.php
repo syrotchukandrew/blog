@@ -23,7 +23,7 @@ class LoadTagData extends AbstractFixture implements OrderedFixtureInterface
 
             $arrayId = null;
             $arrayId = array();
-            while (count($arrayId) < rand(5,13)) {
+            while (count($arrayId) < rand(5, 13)) {
                 $id = rand(1, 50);
                 if ((array_search($id, $arrayId)) === false) {
                     $arrayId[] = $id;

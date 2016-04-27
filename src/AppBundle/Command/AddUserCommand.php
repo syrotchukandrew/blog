@@ -23,6 +23,7 @@ class AddUserCommand extends ContainerAwareCommand
      * @var ObjectManager
      */
     private $entityManager;
+
     /**
      * {@inheritdoc}
      */
@@ -35,8 +36,7 @@ class AddUserCommand extends ContainerAwareCommand
             ->addArgument('username', InputArgument::OPTIONAL, 'The username of the new user')
             ->addArgument('password', InputArgument::OPTIONAL, 'The plain password of the new user')
             ->addArgument('email', InputArgument::OPTIONAL, 'The email of the new user')
-            ->addOption('is-admin', null, InputOption::VALUE_NONE, 'If set, the user is created as an administrator')
-        ;
+            ->addOption('is-admin', null, InputOption::VALUE_NONE, 'If set, the user is created as an administrator');
     }
 
     protected function initialize(InputInterface $input, OutputInterface $output)
@@ -79,7 +79,7 @@ class AddUserCommand extends ContainerAwareCommand
             $username = $console->ask($input, $output, $question);
             $input->setArgument('username', $username);
         } else {
-            $output->writeln(' > <info>Username</info>: '.$username);
+            $output->writeln(' > <info>Username</info>: ' . $username);
         }
         $password = $input->getArgument('password');
         if (null === $password) {
@@ -91,7 +91,7 @@ class AddUserCommand extends ContainerAwareCommand
             $password = $console->ask($input, $output, $question);
             $input->setArgument('password', $password);
         } else {
-            $output->writeln(' > <info>Password</info>: '.str_repeat('*', strlen($password)));
+            $output->writeln(' > <info>Password</info>: ' . str_repeat('*', strlen($password)));
         }
         $email = $input->getArgument('email');
         if (null === $email) {
@@ -102,7 +102,7 @@ class AddUserCommand extends ContainerAwareCommand
             $email = $console->ask($input, $output, $question);
             $input->setArgument('email', $email);
         } else {
-            $output->writeln(' > <info>Email</info>: '.$email);
+            $output->writeln(' > <info>Email</info>: ' . $email);
         }
     }
 
@@ -135,7 +135,7 @@ class AddUserCommand extends ContainerAwareCommand
         if ($output->getVerbosity()) {
             $finishTime = microtime(true);
             $elapsedTime = $finishTime - $startTime;
-            $output->writeln(sprintf('[INFO] New user database id: %d / Elapsed time: %.2f ms', $user->getId(), $elapsedTime*1000));
+            $output->writeln(sprintf('[INFO] New user database id: %d / Elapsed time: %.2f ms', $user->getId(), $elapsedTime * 1000));
         }
     }
 

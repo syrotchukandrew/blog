@@ -8,6 +8,7 @@
                     {{ post.title }}
                 </a>
             </h2>
+
             <p>{% for i in 1..post.rating|round %}
                     <span class="glyphicon glyphicon-star"></span>
                 {% endfor %}
@@ -17,7 +18,9 @@
 
             <div class="container-fluid">
                 {% if post.imageName %}
-                <img class="img-responsive" src={{ asset("#{post.imageName}") | imagine_filter('my_blog') }} alt="foto" style="float: left">
+                    <img class="img-responsive"
+                         src={{ asset("#{post.imageName}") | imagine_filter('my_blog') }} alt="foto"
+                         style="float: left">
                 {% endif %}
                 <p>{{ post.shortText }}</p>
             </div>
@@ -32,7 +35,7 @@
                 </a>
             </div>
         {% endif %}
-        <hr style="color: #0f0f0f; background-color: #0f0f0f; height: 5px">
+        <hr style="color: #0f0f0f; background-color: grey; height: 1px">
     {% endfor %}
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}

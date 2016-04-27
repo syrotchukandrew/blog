@@ -1,12 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
     <title>{% block title %}My blog{% endblock title %}</title>
 
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {% endblock stylesheets %}
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 </head>
 
 <body>
@@ -37,17 +47,21 @@
                     </li>
                     <li>
                         {% if is_granted('ROLE_ADMIN') %}
-                            <a href="{{ path('admin_post_index') }}"><span class="glyphicon glyphicon-user"></span>{{ 'menu.admin'|trans }}</a>
+                            <a href="{{ path('admin_post_index') }}"><span
+                                        class="glyphicon glyphicon-user"></span>{{ 'menu.admin'|trans }}</a>
                         {% endif %}
                     </li>
                     <li>
-                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR')%}
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
                             <a href="{{ path('blog_post_new') }}"><span class="glyphicon glyphicon-user"></span>New post</a>
                         {% endif %}
                     </li>
-                    <li><a href="{{ path('user_registration') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-                    <li><a href="{{ path('security_login_form') }}"><span class="glyphicon glyphicon-log-in"></span>{{ 'action.sign_in'|trans }}</a></li>
-                    <li><a href="{{ path('logout') }}"><span class="glyphicon glyphicon-log-out"></span>{{ 'menu.logout'|trans }}</a></li>
+                    <li><a href="{{ path('user_registration') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a>
+                    </li>
+                    <li><a href="{{ path('security_login_form') }}"><span
+                                    class="glyphicon glyphicon-log-in"></span>{{ 'action.sign_in'|trans }}</a></li>
+                    <li><a href="{{ path('logout') }}"><span
+                                    class="glyphicon glyphicon-log-out"></span>{{ 'menu.logout'|trans }}</a></li>
 
                 </ul>
 
@@ -56,33 +70,31 @@
     </header>
 {% endblock header %}
 
-<div class="container body-container">
-    {% block body %}
-        <div class="row">
-            <div id="main" class="col-sm-9">
+<div class="container">
+    <div class="row">
+        {% block body %}
+            <div id="main" class="col-sm-8">
                 {% block main %}{% endblock main %}
             </div>
 
-            <div id="sidebar" class="col-sm-3">
+            <div id="sidebar" class="col-sm-4">
                 {% block sidebar %}{{ render(controller('AppBundle:Blog:sidebar')) }}{% endblock sidebar %}
             </div>
-        </div>
-    {% endblock body %}
+        {% endblock body %}
+    </div>
+    <div class="row">
+        {% block footer %}
+            <footer>
+                <div id="footer-copyright" class="col-md-6">
+                    <p>&copy; {{ 'now'|date('Y') }} - Che-blog</p>
+
+                    <p>Syrotchuk's site</p>
+                </div>
+            </footer>
+        {% endblock %}
+    </div>
 </div>
 
-{% block footer %}
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div id="footer-copyright" class="col-md-6">
-                    <p>&copy; {{ 'now'|date('Y') }} - My blog</p>
-
-                    <p>All right protected</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-{% endblock %}
 
 {% block javascripts %}
     <script src="{{ asset('js/app.js') }}"></script>

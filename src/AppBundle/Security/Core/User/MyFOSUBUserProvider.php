@@ -6,6 +6,7 @@ use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseClass;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserChecker;
 use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  * Class OAuthUserProvider
  * @package AppBundle\Security\Core\User
@@ -18,7 +19,7 @@ class MyFOSUBUserProvider extends BaseClass
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
         $socialId = $response->getUsername();
-        $user = $this->userManager->findUserBy(array($this->getProperty($response)=>$socialId));
+        $user = $this->userManager->findUserBy(array($this->getProperty($response) => $socialId));
         $email = $response->getEmail();
         //check if the user already has the corresponding social account
         if (null === $user) {
@@ -29,7 +30,7 @@ class MyFOSUBUserProvider extends BaseClass
                 //if the user does not have a normal account, set it up:
                 $user = $this->userManager->createUser();
                 if ($response->getResourceOwner()->getName() == 'vkontakte') {
-                    $user->setUsername($response->getLastName().' '.$response->getFirstName());
+                    $user->setUsername($response->getLastName() . ' ' . $response->getFirstName());
                 } else {
                     $user->setUsername($response->getNickname());
                 }

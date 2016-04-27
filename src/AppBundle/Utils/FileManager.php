@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acer
- * Date: 27/01/16
- * Time: 14:35
- */
+
 
 namespace AppBundle\Utils;
 
@@ -13,10 +8,6 @@ class FileManager
 {
     private $rootDir;
 
-    /**
-     * Constructor.
-     *
-     */
     public function __construct($rootDir)
     {
         $this->rootDir = $rootDir;
