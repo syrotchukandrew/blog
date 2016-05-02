@@ -15,7 +15,7 @@ class TagType extends AbstractType
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true, 'rows' => 20, 'cols' => 112),
-                'label' => 'Title',
+                'label' => 'Назва',
             ))
         ;
     }

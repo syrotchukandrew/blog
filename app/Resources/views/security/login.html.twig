@@ -12,18 +12,18 @@
             <div class="well">
                 <form action="{{ path('security_login_check') }}" method="post">
                     <fieldset>
-                        <legend><i class="fa fa-lock"></i>Login form</legend>
+                        <legend><i class="fa fa-lock"></i>Форма аутентифікації</legend>
                         <div class="form-group">
-                            <label for="username">Enter your username or email</label>
+                            <label for="username">Введіть Ваш Email або Login</label>
                             <input type="text" id="username" name="_username" value="{{ last_username }}"
                                    class="form-control"/>
                         </div>
                         <div class="form-group">
-                            <label for="password">Enter your password</label>
+                            <label for="password">Введіть Ваш пароль</label>
                             <input type="password" id="password" name="_password" class="form-control"/>
                         </div>
                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
-                        <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i> Login</button>
+                        <button type="submit" class="btn btn-primary"><i class="fa fa-sign-in"></i>Увійти</button>
                     </fieldset>
                 </form>
             </div>
@@ -79,9 +79,8 @@
                     }
                 </script>
 
-                <h3>Login via social network</h3>
+                <h3>Увійти за допомогою соціальних мереж</h3>
 
-                {# Bonus: Show all available login link in HWIOAuthBundle #}
                 {% render(controller('HWIOAuthBundle:Connect:connect')) %}
             {% endblock %}
 

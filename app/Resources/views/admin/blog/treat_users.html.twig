@@ -1,49 +1,62 @@
 {% extends 'admin/layout.html.twig' %}
 {% block main %}
-    <h1>Users</h1>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Username</th>
-            <th>Status</th>
-            <th>Roles</th>
-            <th>Locked</th>
-            <th>Unlocked</th>
-            <th>Make moderator</th>
-            <th>Kill moderator</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        {% for user in pagination %}
-            {% if "ROLE_ADMIN" not in user.roles %}
-                <tr>
-                    <td>{{ user.username }}</td>
-                    <td>{% if user.isAccountNonLocked() %}
-                            Still free {% else %} Locked {% endif %} </td>
-                    <td>{% for i in 1..user.roles|length %}
-                            <p>{{ user.roles[(i-1)] }}</p>
-                        {% endfor %}</td>
-                    <td><a href="{{ path('lock_user', { username: user.username }) }}"
-                           class="btn btn-primary btn-danger">
-                            <i class="fa fa-edit"></i> Lock it</a></td>
-                    <td><a href="{{ path('unlock_user', { username: user.username }) }}"
-                           class="btn btn-primary btn-success">
-                            <i class="fa fa-edit"></i> Unlock </a></td>
-                    <td><a href="{{ path('moderator', { username: user.username }) }}"
-                           class="btn btn-primary btn-success">
-                            <i class="fa fa-edit"></i> Make it </a></td>
-                    <td><a href="{{ path('no_moderator', { username: user.username }) }}"
-                           class="btn btn-primary btn-danger">
-                            <i class="fa fa-edit"></i> Kill it</a></td>
-                </tr>
+<h1>Користувачі</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>Ім"я</th>
+        <th>Статус</th>
+        <th>Блокування</th>
+        <th>Ролі</th>
+        <th>Модерування</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in pagination %}
+    {% if "ROLE_ADMIN" not in user.roles %}
+    <tr>
+        <td>{{ user.username }}</td>
+        <td>{% if user.isAccountNonLocked() %}
+                <p style="color: green">Не заблокований</p>
+            {% else %}
+                <p style="color: red">Заблокований</p>
             {% endif %}
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="navigation">
-        {{ knp_pagination_render(pagination) }}
-    </div>
+        </td>
+        <td>
+            {% if user.isAccountNonLocked() %}
+                <a href="{{ path('lock_user', { username: user.username, flag: 1 }) }}"
+                   class="btn btn-primary btn-danger">
+                    <i class="fa fa-edit"></i> Заблокувати</a>
+            {% else %}
+                <a href="{{ path('lock_user', { username: user.username, flag: 0 }) }}"
+                   class="btn btn-primary btn-success">
+                    <i class="fa fa-edit"></i> Розблокувати </a>
+            {% endif %}
+        </td>
+        <td>
+            {% for i in 1..user.roles|length %}
+                <p>{{ user.roles[(i-1)] }}</p>
+            {% endfor %}
+        </td>
+        <td>
+            {% if 'ROLE_MODERATOR' not in user.roles %}
+            <a href="{{ path('moderator', { username: user.username }) }}"
+               class="btn btn-primary btn-success">
+                <i class="fa fa-edit"></i> Зробити модератором </a>
+            {% else %}
+            <a href="{{ path('no_moderator', { username: user.username }) }}"
+               class="btn btn-primary btn-danger">
+                <i class="fa fa-edit"></i> Зробити користівачем</a>
+            {% endif %}
+        </td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+    </tbody>
+</table>
+<div class="navigation">
+    {{ knp_pagination_render(pagination) }}
+</div>
 {% endblock %}
 
 {% block sidebar %}

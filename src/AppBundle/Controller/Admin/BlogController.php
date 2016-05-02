@@ -182,14 +182,14 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/users/lock_user/{username}", name="lock_user")
+     * @Route("/users/lock_user/{username}/{flag}", name="lock_user")
      * @Method("GET")
      */
-    public function lockUserAction(Request $request, $username)
+    public function lockUserAction(Request $request, $username, $flag)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('username' => $username));
-        $user->setLocked(true);
+        $user->setLocked($flag);
         $entityManager->flush();
         return $this->redirectToRoute('treat_users');
     }

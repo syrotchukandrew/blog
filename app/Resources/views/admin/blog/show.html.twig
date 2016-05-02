@@ -4,17 +4,17 @@
 
 {% block main %}
     <h1>{{ post.title }}</h1>
-    <h3>Author email: {{ post.authorEmail }}</h3>
+    <h3>Email автора: {{ post.authorEmail }}</h3>
     <p>{% for i in 1..post.rating|round %}
             <span class="glyphicon glyphicon-star"></span>
         {% endfor %}
-        Ratting {{ post.rating|round(1) }}</p>
-    <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created.date|date("d F Y H:i:s") }} </p>
+        Рейтинг {{ post.rating|round(1) }}</p>
+    <p><span class="glyphicon glyphicon-time"></span> Опубліковано {{ post.created.date|date("d F Y H:i:s") }} </p>
 
     <table class="table">
         <tbody>
         <tr>
-            <th>Foto</th>
+            <th>Фото</th>
             <td>
                 {% if post.imageName %}
                     <img class="img-responsive"
@@ -24,15 +24,11 @@
             </td>
         </tr>
         <tr>
-            <th>Short text</th>
-            <td>{{ post.shortText }}</td>
-        </tr>
-        <tr>
-            <th>Content</th>
+            <th>Зміст</th>
             <td>{{ post.content }}</td>
         </tr>
         <tr>
-            <th>Tags</th>
+            <th>Теги</th>
             <td><p>
                     {% for tag in post.tags %}
                     {{ tag.title }} </p>
@@ -48,14 +44,14 @@
 {% block sidebar %}
     <div class="section">
         <a href="{{ path('admin_post_edit', { slug: post.slug }) }}" class="btn btn-primary btn-success">
-            <i class="fa fa-edit"></i> Edit
+            <i class="fa fa-edit"></i> Редагувати
         </a>
     </div>
     <br>
     <div class="section">
         {{ include('admin/blog/_form.html.twig', {
             form: delete_form,
-            button_label: 'Delete',
+            button_label: 'Видалити',
             button_css: 'btn btn-primary btn-danger',
             show_confirmation: true,
         }, with_context = false) }}

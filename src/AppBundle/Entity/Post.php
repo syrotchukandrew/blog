@@ -72,14 +72,6 @@ class Post
     private $videoId;
 
     /**
-     * @var string
-     * @Assert\NotBlank(message="post.blank_content")
-     * @Assert\Length(min = "10", minMessage = "post.too_short_content")
-     * @ORM\Column(name="shortText", type="text")
-     */
-    private $shortText;
-
-    /**
      * @var \DateTime $created
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="created", type="datetime")
@@ -455,30 +447,6 @@ class Post
     public function removeTag(\AppBundle\Entity\Tag $tag)
     {
         $this->tags->removeElement($tag);
-    }
-
-    /**
-     * Get shortText
-     *
-     * @return string
-     */
-    public function getShortText()
-    {
-        return $this->shortText;
-    }
-
-    /**
-     * Set shortText
-     *
-     * @param string $shortText
-     *
-     * @return Post
-     */
-    public function setShortText($shortText)
-    {
-        $this->shortText = $shortText;
-
-        return $this;
     }
 
     /**

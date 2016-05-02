@@ -22,14 +22,6 @@ class PostType extends AbstractType
                 'attr' => array('autofocus' => true,),
                 'label' => 'Назва посту',
             ))
-            ->add('shortText', TextareaType::class, array(
-                'label' => 'Введіть короткий опис посту',
-                'attr' => [
-                    'placeholder' => 'Введіть короткий опис посту',
-                    'class' => 'form-control',
-                    'rows' => 5
-                ]
-            ))
             ->add('content', TextareaType::class, array(
                 'label' => 'Введіть опис посту',
                 'attr' => [

@@ -223,7 +223,12 @@ class BlogController extends Controller
         $post = new Post();
         $this->denyAccessUnlessGranted('create', $post);
         $form = $this->createForm(PostType::class, $post)
-            ->add('saveAndCreateNew', SubmitType::class);
+            ->add('saveAndCreateNew', SubmitType::class, array(
+                'label' => 'Зберегти та створити ще',
+                'attr' => [
+                    'class' => 'btn btn-primary',
+                ]
+            ));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $this->get('app.file_manager')->fileManager($post);

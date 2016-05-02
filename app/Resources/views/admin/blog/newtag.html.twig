@@ -1,17 +1,17 @@
 {% extends 'admin/layout.html.twig' %}
 
 {% block main %}
-    <h1>New tag</h1>
+    <h1>Новий тег</h1>
 
     {{ form_start(form) }}
     {{ form_row(form.title) }}
 
-    <input type="submit" value="Create tag" class="btn btn-primary"/>
+    <input type="submit" value="Створити тег" class="btn btn-primary"/>
 
-    {{ form_widget(form.saveAndCreateNew, { label: 'Save and create new'|trans, attr: { class: 'btn btn-primary' } }) }}
+    {{ form_widget(form.saveAndCreateNew, { label: 'Зберегти і створити ще'|trans, attr: { class: 'btn btn-primary' } }) }}
 
     <a href="{{ path('admin_post_index') }}" class="btn btn-primary">
-        Back to list
+        Назад до переліку
     </a>
     {{ form_end(form) }}
 {% endblock %}
