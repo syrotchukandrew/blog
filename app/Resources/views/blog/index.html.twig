@@ -8,31 +8,41 @@
                     {{ post.title }}
                 </a>
             </h2>
+
             <p>{% for i in 1..post.rating|round %}
                     <span class="glyphicon glyphicon-star"></span>
                 {% endfor %}
-                Ratting {{ post.rating|round(1) }}</p>
+                Рейтинг {{ post.rating|round(1) }}</p>
 
-            <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created.date|date("d F Y H:i:s") }} </p>
+            <p><span class="glyphicon glyphicon-time"></span> Опубліковано {{ post.created.date|date("d F Y H:i:s") }} </p>
 
-            <div class="container-fluid">
-                {% if post.imageName %}
-                <img class="img-responsive" src={{ asset("#{post.imageName}") | imagine_filter('my_blog') }} alt="foto" style="float: left">
-                {% endif %}
-                <p>{{ post.shortText }}</p>
-            </div>
+            <a href="{{ path('blog_post', { 'slug': post.slug }) }}">
+                <div class="container-fluid">
+                    {% if post.imageName %}
+                        <img class="img-responsive"
+                             src={{ asset("#{post.imageName}") | imagine_filter('my_blog') }} alt="foto"
+                             style="float: left">
+                    {% endif %}
+                    {% if post.videoId %}
+                        <iframe width="900" height="600"
+                                src="http://www.youtube.com/embed/{{ post.videoId }}">
+                        </iframe>
+                    {% endif %}
+                    <p>{{ dots3(post.content, 100) }}</p>
+                </div>
+            </a>
         </article><br>
         {% if is_granted('edit', post) %}
             <div class="section">
                 <a href="{{ path('blog_post_edit', { slug: post.slug }) }}" class="btn btn-primary btn-success">
-                    <i class="fa fa-edit"></i> Edit this post
+                    <i class="fa fa-edit"></i> Редагувати цей пост
                 </a>
                 <a href="{{ path('blog_post_delete', { slug: post.slug }) }}" class="btn btn-primary btn-danger">
-                    <i class="fa fa-edit"></i> Delete this post
+                    <i class="fa fa-edit"></i> Видалити цей пост
                 </a>
             </div>
         {% endif %}
-        <hr style="color: #0f0f0f; background-color: #0f0f0f; height: 5px">
+        <hr style="color: #0f0f0f; background-color: grey; height: 1px">
     {% endfor %}
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}

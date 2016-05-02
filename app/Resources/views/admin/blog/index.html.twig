@@ -1,13 +1,13 @@
 {% extends 'admin/layout.html.twig' %}
 {% block main %}
-    <h1>Posts</h1>
+    <h1>Пости</h1>
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Foto</th>
-            <th><i class="fa fa-calendar"></i>Created at</th>
-            <th><i class="fa fa-cogs"></i>Actions</th>
+            <th>Назва</th>
+            <th>Фото</th>
+            <th><i class="fa fa-calendar"></i>Створено</th>
+            <th><i class="fa fa-cogs"></i>Дії</th>
         </tr>
         </thead>
         <tbody>
@@ -16,16 +16,18 @@
                 <td>{{ post.title }}</td>
                 <td>
                     {% if post.imageName %}
-                        <img class="img-responsive" src={{ asset("#{post.imageName}") | imagine_filter('my_admin') }} alt="foto" style="float: left">
+                        <img class="img-responsive"
+                             src={{ asset("#{post.imageName}") | imagine_filter('my_admin') }} alt="foto"
+                             style="float: left">
                     {% endif %}
                 </td>
                 <td>{{ post.created.date|date("d F Y H:i:s") }}</td>
                 <td>
                     <div class="item-actions">
                         <a href="{{ path('admin_post_show', { slug: post.slug }) }}" class="btn btn-sm btn-default">
-                            Show post </a>
+                            Показати пост </a>
                         <a href="{{ path('admin_post_edit', { slug: post.slug }) }}" class="btn btn-sm btn-primary">
-                            <i class="fa fa-edit"></i> Edit post </a>
+                            <i class="fa fa-edit"></i> Редагувати пост </a>
                     </div>
                 </td>
             </tr>
@@ -38,8 +40,9 @@
 {% endblock %}
 {% block sidebar %}
     <div class="well">
-        <h4>Search</h4>
-        <p>Start typing post's title</p>
+        <h4>Пошук</h4>
+
+        <p>Почніть друкувати назву поста</p>
 
         <form action="{{ path('admin_livesearch') }}" method="post">
             <div class="input-group">
@@ -85,16 +88,16 @@
                 }
             };
             var route = Routing.generate('admin_livesearch');
-            xmlhttp.open("GET", route + "?slug="+str, true);
+            xmlhttp.open("GET", route + "?slug=" + str, true);
             xmlhttp.send();
         }
     </script>
     <div class="section actions">
         <a href="{{ path('admin_post_new') }}" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-plus"></i> Create post </a>
+            <i class="fa fa-plus"></i> Створити пост </a>
         <a href="{{ path('admin_tag_new') }}" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-plus"></i> Create tag </a>
+            <i class="fa fa-plus"></i> Створити тег </a>
         <a href="{{ path('treat_users') }}" class="btn btn-lg btn-block btn-success">
-            <i class="fa fa-plus"></i> Treat users </a>
+            <i class="fa fa-plus"></i> Робота з користувачами </a>
     </div>
 {% endblock %}

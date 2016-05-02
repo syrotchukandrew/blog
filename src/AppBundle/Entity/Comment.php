@@ -8,8 +8,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * Comment
- *
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
  */
@@ -24,9 +22,7 @@ class Comment
     private $id;
 
     /**
-     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments")
-     *
      */
     private $post;
 
@@ -56,6 +52,12 @@ class Comment
     private $created;
 
     /**
+     * @Gedmo\Blameable(on="create")
+     * @ORM\Column
+     */
+    private $createdBy;
+
+    /**
      * @var \DateTime $contentChanged
      * @ORM\Column(name="contentChanged", type="datetime", nullable=true)
      * @Gedmo\Timestampable(on="change", field={"title", "content"})
@@ -64,8 +66,6 @@ class Comment
 
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -83,6 +83,16 @@ class Comment
         $this->authorEmail = $authorEmail;
     }
 
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+    }
+
     /**
      * Is the given User the author of this Comment?
      *
@@ -94,7 +104,7 @@ class Comment
     {
         return $user->getEmail() == $this->getAuthorEmail();
     }
-    
+
     /**
      * Set content
      *

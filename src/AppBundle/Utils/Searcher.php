@@ -1,17 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: acer
- * Date: 27/01/16
- * Time: 13:12
- */
+
 
 namespace AppBundle\Utils;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class Searcher //this service was created for practise - don't look for ratio
+class Searcher
 {
     private $doctrine;
 

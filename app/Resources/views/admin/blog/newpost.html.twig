@@ -1,24 +1,21 @@
 {% extends 'admin/layout.html.twig' %}
 
 {% block main %}
-    <h1>New post</h1>
-
+    <h1>Створити новий пост</h1><br>
     {{ form_start(form) }}
-        {{ form_row(form.title) }}
-        {{ form_row(form.shortText) }}
-        {{ form_row(form.content) }}
-        {{ form_row(form.tags) }}
-
-        <input type="submit" value="Create post" class="btn btn-primary" />
-
-        {{ form_widget(form.saveAndCreateNew, { label: 'Save and create new'|trans, attr: { class: 'btn btn-primary' } }) }}
-
-        <a href="{{ path('admin_post_index') }}" class="btn btn-primary">
-            Back to list
-        </a>
+    {{ form_row(form.title) }}<br>
+    {{ form_row(form.shortText) }}<br>
+    {{ form_row(form.content) }}<br>
+    {{ form_row(form.tags) }}<br>
+    {{ form_row(form.image_file) }}<br>
+    {{ form_row(form.videoId) }}<br>
     {{ form_end(form) }}
+    <br>
+    <input type="submit" value="Створити пост" class="btn btn-primary"/>
+
+    <a href="{{ path('admin_post_index') }}" class="btn btn-primary">
+        Назад до списку постів
+    </a>
 {% endblock %}
 
-{% block sidebar %}
-
-{% endblock %}
+{% block sidebar %}{% endblock %}

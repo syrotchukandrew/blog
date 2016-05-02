@@ -20,26 +20,37 @@ class PostType extends AbstractType
         $builder
             ->add('title', TextType::class, array(
                 'attr' => array('autofocus' => true,),
-                'label' => 'Title',
+                'label' => 'Назва посту',
             ))
             ->add('shortText', TextareaType::class, array(
+                'label' => 'Введіть короткий опис посту',
                 'attr' => [
-                    'placeholder' => 'Add text article',
+                    'placeholder' => 'Введіть короткий опис посту',
                     'class' => 'form-control',
                     'rows' => 5
                 ]
             ))
             ->add('content', TextareaType::class, array(
+                'label' => 'Введіть опис посту',
                 'attr' => [
-                    'placeholder' => 'Add text article',
+                    'placeholder' => 'Введіть текст посту',
                     'class' => 'form-control',
                     'rows' => 5
                 ]
             ))
+            ->add('videoId', TextType::class, array(
+                'label' => 'Відео з YouTube',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Вставте ID свого відео на YouTube',
+                ]
+            ))
             ->add('image_file', FileType::class, array(
+                'label' => 'Завантажити фото',
                 'required' => false
             ))
             ->add('tags', EntityType::class, array(
+                'label' => 'Виберіть тег для цього посту (якщо потрібний тег відсутній - потрібно спочатку його створити)',
                 'class' => 'AppBundle:Tag',
                 'choice_label' => 'title',
                 'multiple' => true,

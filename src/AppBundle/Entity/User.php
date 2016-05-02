@@ -23,12 +23,6 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @Assert\NotBlank()
-     * @Assert\Length(max = 4096)
-     */
-    protected $plainPassword;
-
-    /**
      * @ORM\Column(name="facebook_id", type="string", length=255, nullable=true)
      */
     protected $facebookId;
@@ -130,7 +124,6 @@ class User extends BaseUser
         return $this->vkontakteAccessToken;
     }
 
-
     /**
      * @param string $googleId
      * @return User
@@ -168,121 +161,4 @@ class User extends BaseUser
     {
         return $this->googleAccessToken;
     }
-
-
-    /**
-     * {@inheritdoc}
-     */
-   /* public function getUsername()
-    {
-        return $this->username;
-    }*/
-
-    public function setUsername($username)
-    {
-        $this->username = $username;
-    }
-
-   /* public function getEmail()
-    {
-        return $this->email;
-    }*/
-
-    /*public function setEmail($email)
-    {
-        $this->email = $email;
-    }*/
-
-    public function getPlainPassword()
-    {
-        return $this->plainPassword;
-    }
-
-    public function setPlainPassword($password)
-    {
-        $this->plainPassword = $password;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    /*public function getPassword()
-    {
-        return $this->password;
-    }
-
-    public function setPassword($password)
-    {
-        $this->password = $password;
-    }*/
-
-    /**
-     * Returns the roles or permissions granted to the user for security.
-     */
-    public function getRoles()
-    {
-        $roles = $this->roles;
-
-        // guarantees that a user always has at least one role for security
-        if (empty($roles)) {
-            $roles[] = 'ROLE_USER';
-        }
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles)
-    {
-        $this->roles = $roles;
-    }
-
-    public function getSalt()
-    {
-        return;
-    }
-
-    public function eraseCredentials()
-    {
-        // if you had a plainPassword property, you'd nullify it here
-        // $this->plainPassword = null;
-    }
-
-    public function isAccountNonExpired()
-    {
-        return true;
-    }
-
-  /*  public function isAccountNonLocked()
-    {
-        $status = parent::isAccountNonLocked();
-        switch ($status) {
-            case true:
-                return true;
-            case false:
-                return false;
-            default:
-                return true;
-        }
-    }*/
-
-    public function isCredentialsNonExpired()
-    {
-        return true;
-    }
-
-    public function isEnabled()
-    {
-        return true;
-    }
-
-    /*public function setStatus($status)
-    {
-        $this->status = $status;
-
-    }
-
-    public function getStatus()
-    {
-        return $this->status;
-    }*/
 }

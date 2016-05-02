@@ -6,8 +6,7 @@ imports:
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    locale: en
-    app_locales: en|uk
+    locale: uk
 
 framework:
     #esi:             ~
@@ -60,11 +59,12 @@ doctrine:
         auto_mapping: true
 
 stof_doctrine_extensions:
-    default_locale: en_US
+    default_locale: uk
     orm:
         default:
             timestampable: true
             sluggable: true
+            blameable: true
 
 # Swiftmailer Configuration
 swiftmailer:
@@ -128,8 +128,8 @@ hwi_oauth:
     resource_owners:
         facebook:
             type:                facebook
-            client_id:           1691658947740414
-            client_secret:       b1e399e8aa4083e767186b3b7fee2e76
+            client_id:           %facebook_client_id%
+            client_secret:       %facebook_client_secret%
             options:
                 display:    popup
             csrf:                true
@@ -141,22 +141,25 @@ hwi_oauth:
 
         google:
             type:                google
-            client_id:           577596914088-hns61ctor2bm7m7jmivcb8a590f84b10.apps.googleusercontent.com
-            client_secret:       fI-hygAGiPe5V9pfzE-R91pW
+            client_id:           %google_client_id%
+            client_secret:       %google_client_secret%
             scope:              "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"
             paths:
                 email: email
 
         vkontakte:
             type:                vkontakte
-            client_id:           5292714
-            client_secret:       I83oCscAWYsehAxgNAzk
+            client_id:           %vkontakte_client_id%
+            client_secret:       %vkontakte_client_secret%
             scope:               email status
 
 fos_user:
     db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
     firewall_name: main
     user_class: AppBundle\Entity\User
+    registration:
+        confirmation:
+            enabled: true
 
 services:
     fos_user.doctrine_registry:

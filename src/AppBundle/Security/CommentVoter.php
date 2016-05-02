@@ -61,8 +61,8 @@ class CommentVoter extends Voter
                 break;
             case self::EDIT:
 // if the user is the author of the comment or admin or moderator, allow them to edit the comments
-                if ($user->getEmail() === $comment->getAuthorEmail() ||
-                    $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
+                if ($comment->isAuthor($user) ||
+                    ($this->decisionManager->decide($token, array('ROLE_ADMIN')) && $comment->isAuthor($user)) ||
                     ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) &&
                         $this->canYouDoIt($comment, $user))
                 ) {
@@ -70,9 +70,9 @@ class CommentVoter extends Voter
                 }
                 break;
             case self::REMOVE:
-// if the user is the author of the comment or admin or moderator, allow them to edit the posts in the some order
-                if ($user->getEmail() === $comment->getAuthorEmail() ||
-                    $this->decisionManager->decide($token, array('ROLE_ADMIN')) ||
+// if the user is the author of the comment or admin or moderator, allow them to remove the posts in the some order
+                if ($comment->isAuthor($user) ||
+                    ($this->decisionManager->decide($token, array('ROLE_ADMIN')) && $comment->isAuthor($user)) ||
                     ($this->decisionManager->decide($token, array('ROLE_MODERATOR')) &&
                         $this->canYouDoIt($comment, $user)
                     )) {

@@ -1,6 +1,5 @@
-{#<div>    {{ knp_menu_render('AppBundle:Builder:mainMenu') }}</div>#}
 <div class="well">
-    <h4>Blog Search</h4>
+    <h4>Пошук</h4>
 
     <form action="{{ path('livesearch') }}" method="post">
         <div class="input-group">
@@ -46,7 +45,7 @@
             }
         };
         var route = Routing.generate('livesearch');
-        xmlhttp.open("GET", route + "?slug="+str, true);
+        xmlhttp.open("GET", route + "?slug=" + str, true);
         xmlhttp.send();
     }
 </script>
@@ -54,7 +53,7 @@
 <div class="well sidebar">
     <section class="section">
         <header>
-            <h3>Tag Cloud</h3>
+            <h3>Хмара тегів</h3>
         </header>
         <p class="tags">
             {% for tag, weight in alltags %}
@@ -64,7 +63,8 @@
                 </a>
             </span>
             {% else %}
-        <p>There are no tags</p>
+
+        <p>Ще не створено тегів</p>
         {% endfor %}
         </p>
     </section>
@@ -72,7 +72,7 @@
 <div class="well sidebar">
     <section class="section">
         <header>
-            <h3>The most populate posts</h3>
+            <h3>Найбільш популярні пости</h3>
         </header>
         {% for post in populatePosts %}
             <article class="comment">
@@ -80,9 +80,9 @@
                     <p>{% for i in 1..post.rating|round %}
                             <span class="glyphicon glyphicon-star"></span>
                         {% endfor %}
-                        Ratting {{ post.rating|round(1) }}</p>
+                        Рейтинг: {{ post.rating|round(1) }}</p>
 
-                    <p class="small"> created on [<em>
+                    <p class="small"> створено: [<em>
                             <time datetime="{{ post.created|date('c') }}">
                                 {{ post.created|date('Y-m-d h:iA') }}</time>
                         </em>]
@@ -99,12 +99,12 @@
 <div class="well sidebar">
     <section class="section">
         <header>
-            <h3>Latest Comments</h3>
+            <h3>Останні коментарі</h3>
         </header>
         {% for comment in latestComments %}
             <article class="comment">
                 <header>
-                    <p class="small"> commented on [<em>
+                    <p class="small"> прокоментовано: [<em>
                             <time datetime="{{ comment.created|date('c') }}">
                                 {{ comment.created|date('Y-m-d h:iA') }}</time>
                         </em>]

@@ -36,6 +36,7 @@ class LoadPostData extends AbstractFixture implements OrderedFixtureInterface
             for ($j = 0; $j < $rand; $j++) {
                 $comment = new Comment();
                 $comment->setAuthorEmail('user_user@blog.com');
+                $comment->setCreatedBy('user_user');
                 $comment->setContent($faker->realText($maxNbChars = 500, $indexSize = 2));
                 $comment->setPost($post);
                 $post->getComments()->add($comment);

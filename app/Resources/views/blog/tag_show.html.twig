@@ -6,27 +6,30 @@
         {{ tag[0].posts|length }} posts</p>
 
     {% for post in pagination %}
-            <article class="post">
-                <h2>
-                    <a href="{{ path('blog_post', { slug: post.slug }) }}">
-                        {{ post.title }}
-                    </a>
-                </h2>
-                <p>{% for i in 1..post.rating|round %}
-                        <span class="glyphicon glyphicon-star"></span>
-                    {% endfor %}
-                    Ratting {{ post.rating|round(1) }}</p>
+        <article class="post">
+            <h2>
+                <a href="{{ path('blog_post', { slug: post.slug }) }}">
+                    {{ post.title }}
+                </a>
+            </h2>
 
-                <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created.date|date("d F Y H:i:s") }} </p>
+            <p>{% for i in 1..post.rating|round %}
+                    <span class="glyphicon glyphicon-star"></span>
+                {% endfor %}
+                Ratting {{ post.rating|round(1) }}</p>
 
-                <div class="container-fluid">
-                    {% if post.imageName %}
-                        <img class="img-responsive" src={{ asset("#{post.imageName}") | imagine_filter('my_blog') }} alt="foto" style="float: left">
-                    {% endif %}
-                    <p>{{ post.shortText }}</p>
-                </div>
-            </article>
-            <hr style="color: #0f0f0f; background-color: #0f0f0f; height: 5px">
+            <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created.date|date("d F Y H:i:s") }} </p>
+
+            <div class="container-fluid">
+                {% if post.imageName %}
+                    <img class="img-responsive"
+                         src={{ asset("#{post.imageName}") | imagine_filter('my_blog') }} alt="foto"
+                         style="float: left">
+                {% endif %}
+                <p>{{ post.shortText }}</p>
+            </div>
+        </article>
+        <hr style="color: #0f0f0f; background-color: #0f0f0f; height: 5px">
     {% endfor %}
     <div class="navigation">
         {{ knp_pagination_render(pagination) }}

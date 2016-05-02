@@ -20,18 +20,6 @@ vkontakte_login:
 app:
     resource: @AppBundle/Controller/
     type:     annotation
-    prefix:   /{_locale}
-    requirements:
-        _locale: %app_locales%
-    defaults:
-        _locale: %locale%
-
-homepage:
-    path:      /{_locale}
-    defaults:  { _controller: AppBundle:Blog:index, _locale: en }
-    requirements:
-        _locale:  en|uk
-
 
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
