@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <h2><p>Do you want to edit this comment?</p></h2>
+    <h2><p>Редагувати коментар?</p></h2>
     {% form_theme edit_form 'form_table_layout.html.twig' %}
     {{ form_start(edit_form) }}
     {{ form_widget(edit_form) }}
     {{ form_end(edit_form) }}
 {% endblock main %}
 
-{% block sidebar %}Sidebar{% endblock sidebar %}
+{% block sidebar %}{% endblock sidebar %}

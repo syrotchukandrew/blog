@@ -67,6 +67,12 @@ class Post
 
     /**
      * @var string
+     * @ORM\Column(name="video_id", type="text", nullable=true)
+     */
+    private $videoId;
+
+    /**
+     * @var string
      * @Assert\NotBlank(message="post.blank_content")
      * @Assert\Length(min = "10", minMessage = "post.too_short_content")
      * @ORM\Column(name="shortText", type="text")
@@ -224,6 +230,30 @@ class Post
     public function setContent($content)
     {
         $this->content = $content;
+
+        return $this;
+    }
+
+    /**
+     * Get videoId
+     *
+     * @return string
+     */
+    public function getVideoId()
+    {
+        return $this->videoId;
+    }
+
+    /**
+     * Set videoId
+     *
+     * @param string $videoId
+     *
+     * @return Post
+     */
+    public function setVideoId($videoId)
+    {
+        $this->videoId = $videoId;
 
         return $this;
     }

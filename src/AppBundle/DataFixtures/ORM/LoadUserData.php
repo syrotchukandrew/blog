@@ -31,7 +31,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user_user->setUsername('user_user');
         $user_user->setEmail('user_user@blog.com');
         $user_user->setRoles(array('ROLE_USER'));
-        //$user_user->setStatus(true);
+        $user_user->setEnabled(true);
         $encodedPassword = $passwordEncoder->encodePassword($user_user, 'qweasz');
         $user_user->setPassword($encodedPassword);
         $manager->persist($user_user);
@@ -40,7 +40,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user_admin->setUsername('user_admin');
         $user_admin->setEmail('user_admin@blog.com');
         $user_admin->setRoles(array('ROLE_ADMIN'));
-        //$user_admin->setStatus(true);
+        $user_admin->setEnabled(true);
         $encodedPassword = $passwordEncoder->encodePassword($user_admin, 'qweasz');
         $user_admin->setPassword($encodedPassword);
         $manager->persist($user_admin);
@@ -49,7 +49,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $user_moderator->setUsername('user_moderator');
         $user_moderator->setEmail('user_moderator@blog.com');
         $user_moderator->setRoles(array('ROLE_MODERATOR'));
-        //$user_moderator->setLocked(true);
+        $user_moderator->setEnabled(true);
         $encodedPassword = $passwordEncoder->encodePassword($user_moderator, 'qweasz');
         $user_moderator->setPassword($encodedPassword);
         $manager->persist($user_moderator);

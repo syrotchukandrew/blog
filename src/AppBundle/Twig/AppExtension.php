@@ -9,10 +9,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class AppExtension extends \Twig_Extension
 {
-    /**
-     * @var array
-     */
-    private $locales;
     protected $container;
 
     /**
@@ -20,9 +16,8 @@ class AppExtension extends \Twig_Extension
      *
      * @param ContainerInterface $container
      */
-    public function __construct($locales, $container)
+    public function __construct($container)
     {
-        $this->locales = $locales;
         $this->container = $container;
     }
 
@@ -34,8 +29,6 @@ class AppExtension extends \Twig_Extension
         return array(
             new \Twig_SimpleFunction('dots3', array($this, 'dots3'), array('is_safe' => array('html'))),
             new \Twig_SimpleFunction('facebookButton', array($this, 'getFacebookLikeButton'), array('is_safe' => array('html'))),
-            new \Twig_SimpleFunction('locales', array($this, 'getLocales')),
-
         );
     }
 
@@ -44,8 +37,8 @@ class AppExtension extends \Twig_Extension
     {
         // default values, you can override the values by setting them
         $parameters = $parameters + array(
-                'url' => 'http://symfony.com',
-                'locale' => 'en_US',
+                'url' => null,
+                'locale' => 'uk',
                 'send' => false,
                 'width' => 300,
                 'showFaces' => false,
@@ -54,19 +47,6 @@ class AppExtension extends \Twig_Extension
 
         return $this->container->get('app.socialBarHelper')->facebookButton($parameters);
     }
-
-    public function getLocales()
-    {
-        $localeCodes = explode('|', $this->locales);
-
-        $locales = array();
-        foreach ($localeCodes as $localeCode) {
-            $locales[] = array('code' => $localeCode, 'name' => Intl::getLocaleBundle()->getLocaleName($localeCode, $localeCode));
-        }
-
-        return $locales;
-    }
-
 
     public function dots3($content, $limit = 25)
     {

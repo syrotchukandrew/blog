@@ -37,7 +37,7 @@ class BlogController extends Controller
     }
 
     /**
-     * @Route("/post/{slug}", name="blog_post", options={"expose"=true})
+     * @Route("/posts/{slug}", name="blog_post", options={"expose"=true})
      */
     public function postShowAction(Post $post, Request $request)
     {
@@ -91,14 +91,13 @@ class BlogController extends Controller
         $this->denyAccessUnlessGranted('edit', $comment);
         $editForm = $this->createForm(CommentType::class, $comment);
         $editForm->add('submit', SubmitType::class,
-            ['label' => 'Edit',
+            ['label' => 'Редагувати',
                 'attr' => ['class' => 'btn btn-default left',
                     'type' => 'submit']
             ]
         );
         $editForm->handleRequest($request);
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            //$comment = $editForm->getData();
             $em->flush();
             return $this->redirectToRoute('blog_post', array('slug' => $slug));
         }
@@ -121,7 +120,7 @@ class BlogController extends Controller
             'method' => 'DELETE',
         ]);
         $form->add('submit', SubmitType::class,
-            ['label' => 'Delete',
+            ['label' => 'Видалити',
                 'attr' => ['class' => 'btn btn-default left',
                     'type' => 'submit']
             ]
@@ -278,7 +277,7 @@ class BlogController extends Controller
             'method' => 'DELETE',
         ]);
         $form->add('submit', SubmitType::class,
-            ['label' => 'Delete',
+            ['label' => 'Видалити',
                 'attr' => ['class' => 'btn btn-default left',
                     'type' => 'submit']
             ]
