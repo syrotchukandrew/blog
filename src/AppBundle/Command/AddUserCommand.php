@@ -124,6 +124,7 @@ class AddUserCommand extends ContainerAwareCommand
         $user = new User();
         $user->setUsername($username);
         $user->setEmail($email);
+        $user->setEnabled(true);
         $user->setRoles(array($isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER'));
         $encoder = $this->getContainer()->get('security.password_encoder');
         $encodedPassword = $encoder->encodePassword($user, $plainPassword);
