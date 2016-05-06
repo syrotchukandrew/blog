@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block main %}
-    <h1>{{ tag[0].title }}</h1>
-    <p><span class="glyphicon glyphicon-time"></span> Created on {{ tag[0].created.date|date("d F Y H:i:s") }}
-        {{ tag[0].posts|length }} posts</p>
+    <h1>{{ tag.title }}</h1>
+    <p><span class="glyphicon glyphicon-time"></span> Created on {{ tag.created.date|date("d F Y H:i:s") }}
+        {{ tag.posts|length }} posts</p>
 
     {% for post in pagination %}
         <article class="post">
@@ -20,14 +20,21 @@
 
             <p><span class="glyphicon glyphicon-time"></span> Posted on {{ post.created.date|date("d F Y H:i:s") }} </p>
 
-            <div class="container-fluid">
-                {% if post.imageName %}
-                    <img class="img-responsive"
-                         src={{ asset("#{post.imageName}") | imagine_filter('my_blog') }} alt="foto"
-                         style="float: left">
-                {% endif %}
-                <p>{{ post.shortText }}</p>
-            </div>
+            <a href="{{ path('blog_post', { 'slug': post.slug }) }}">
+                <div class="container-fluid">
+                    {% if post.imageName %}
+                        <img class="img-responsive"
+                             src={{ asset("#{post.imageName}") | imagine_filter('my_blog') }} alt="foto"
+                             style="float: left">
+                    {% endif %}
+                    {% if post.videoId %}
+                        <iframe width="300" height="200"
+                                src="http://www.youtube.com/embed/{{ post.videoId }}">
+                        </iframe>
+                    {% endif %}
+                    <p>{{ dots3(post.content, 100) }}</p>
+                </div>
+            </a>
         </article>
         <hr style="color: #0f0f0f; background-color: #0f0f0f; height: 5px">
     {% endfor %}

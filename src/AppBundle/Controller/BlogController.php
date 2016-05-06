@@ -188,7 +188,7 @@ class BlogController extends Controller
         $tag = $this->getDoctrine()->getRepository('AppBundle:Tag')->getTagWithPosts($slug);
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
-            $posts = $tag[0]->getPosts(),
+            $posts = $tag->getPosts(),
             $request->query->getInt('page', 1),
             10
         );

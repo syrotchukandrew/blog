@@ -27,6 +27,6 @@ class TagRepository extends \Doctrine\ORM\EntityRepository
             ->leftJoin('tag.posts', 'post')
             ->setParameter('slug', $slug)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 }
