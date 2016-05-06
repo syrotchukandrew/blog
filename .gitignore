@@ -11,7 +11,7 @@
 /web/bundles/
 /node_modules/
 /bower_components/
-/web-src/
-/web/media/
+/web-src/*
+/web/media/*
 /web/images/*
 !web/images/.gitkeep

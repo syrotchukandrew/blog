@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>{% block title %}My blog{% endblock title %}</title>
+    <title>{% block title %}Роббі Ві{% endblock title %}</title>
 
     {% block stylesheets %}
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
@@ -41,17 +41,21 @@
                     </li>
                     <li>
                         {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MODERATOR') %}
-                            <a href="{{ path('blog_post_new') }}"><span class="glyphicon glyphicon-user"></span>Створити новий пост</a>
+                            <a href="{{ path('blog_post_new') }}"><span class="glyphicon glyphicon-user"></span>Створити
+                                новий пост</a>
                         {% endif %}
                     </li>
-                    <li><a href="{{ path('fos_user_registration_register') }}"><span class="glyphicon glyphicon-user"></span> Реєстрація</a>
-                    </li>
+
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                    <li><a href="{{ path('fos_user_profile_show') }}">Профіль</a></li>
-                    <li><a href="{{ path('logout') }}">Вийти</a></li>
+                        <li><a href="{{ path('fos_user_profile_show') }}">Привіт, {{ app.user.username }}</a></li>
+                        <li><a href="{{ path('logout') }}">Вийти</a></li>
                     {% else %}
-                    <li><a href="{{ path('security_login_form') }}"><span
-                                    class="glyphicon glyphicon-log-in"></span>Увійти</a></li>
+                        <li>
+                            <a href="{{ path('fos_user_registration_register') }}"><span
+                                        class="glyphicon glyphicon-user"></span> Реєстрація</a>
+                        </li>
+                        <li><a href="{{ path('security_login_form') }}"><span
+                                        class="glyphicon glyphicon-log-in"></span>Увійти</a></li>
                     {% endif %}
                 </ul>
 
