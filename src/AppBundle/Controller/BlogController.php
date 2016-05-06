@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
 use AppBundle\Entity\Comment;
+use Doctrine\DBAL\Exception\DatabaseObjectNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -186,6 +187,9 @@ class BlogController extends Controller
     public function tagShowAction($slug, Request $request)
     {
         $tag = $this->getDoctrine()->getRepository('AppBundle:Tag')->getTagWithPosts($slug);
+        /*if (!$tag) {
+            throw new DatabaseObjectNotFoundException('Пости відсутні',);
+        }*/
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $posts = $tag->getPosts(),
