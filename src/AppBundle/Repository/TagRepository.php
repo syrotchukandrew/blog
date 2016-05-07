@@ -23,7 +23,7 @@ class TagRepository extends \Doctrine\ORM\EntityRepository
     {
         return $this->createQueryBuilder('tag')
             ->select('tag, post')
-            ->where('tag.slug = :slug')
+            ->where('tag.title = :slug')
             ->leftJoin('tag.posts', 'post')
             ->setParameter('slug', $slug)
             ->getQuery()

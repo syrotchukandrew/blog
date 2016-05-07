@@ -40,6 +40,7 @@ class Tag
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
+     * @ORM\OrderBy({"created" = "DESC"})
      */
     private $posts;
 
