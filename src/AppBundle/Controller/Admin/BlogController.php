@@ -56,7 +56,7 @@ class BlogController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $post = $this->get('app.file_manager')->fileManager($post);
-            $post->setAuthorEmail($this->getUser());
+            $post->setAuthorEmail($this->getUser()->getEmail());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($post);
             $entityManager->flush();
