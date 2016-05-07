@@ -58,7 +58,7 @@
         <p class="tags">
             {% for tag, weight in alltags %}
             <span class="weight-{{ weight }}">
-                <a href="{{ path('tag_post', { slug: tag.slug}) }}">
+                <a href="{{ path('tag_post', { slug: tag}) }}">
                     {{ tag }}
                 </a>
             </span>

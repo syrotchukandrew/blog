@@ -187,9 +187,9 @@ class BlogController extends Controller
     public function tagShowAction($slug, Request $request)
     {
         $tag = $this->getDoctrine()->getRepository('AppBundle:Tag')->getTagWithPosts($slug);
-        /*if (!$tag) {
-            throw new DatabaseObjectNotFoundException('Пости відсутні',);
-        }*/
+        if (!$tag) {
+            return new Response('У даного тега це немає постів');
+        }
         $paginator = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $posts = $tag->getPosts(),

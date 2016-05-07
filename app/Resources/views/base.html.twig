@@ -72,7 +72,9 @@
             </div>
 
             <div id="sidebar" class="col-sm-4">
-                {% block sidebar %}{{ render(controller('AppBundle:Blog:sidebar')) }}{% endblock sidebar %}
+                {% block sidebar %}
+                    {{ render(controller('AppBundle:Blog:sidebar')) }}
+                {% endblock sidebar %}
             </div>
         {% endblock body %}
     </div>
