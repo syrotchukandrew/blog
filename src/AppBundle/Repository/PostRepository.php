@@ -37,6 +37,7 @@ class PostRepository extends \Doctrine\ORM\EntityRepository
         return $this->createQueryBuilder('post')
             ->select('post, tag')
             ->leftJoin('post.tags', 'tag')
+            ->orderBy('post.created', 'DESC')
             ->getQuery()
             ->getResult();
     }

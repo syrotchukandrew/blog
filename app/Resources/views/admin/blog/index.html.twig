@@ -20,6 +20,11 @@
                              src={{ asset("#{post.imageName}") | imagine_filter('my_admin') }} alt="foto"
                              style="float: left">
                     {% endif %}
+                    {% if post.videoId %}
+                        <iframe width="60" height="40"
+                                src="http://www.youtube.com/embed/{{ post.videoId }}">
+                        </iframe>
+                    {% endif %}
                 </td>
                 <td>{{ post.created.date|date("d F Y H:i:s") }}</td>
                 <td>

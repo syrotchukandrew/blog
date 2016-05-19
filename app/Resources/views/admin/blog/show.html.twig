@@ -21,6 +21,11 @@
                          src={{ asset("#{post.imageName}") | imagine_filter('my_post') }} alt="foto"
                          style="float: left">
                 {% endif %}
+                {% if post.videoId %}
+                    <iframe width="750" height="500"
+                            src="http://www.youtube.com/embed/{{ post.videoId }}">
+                    </iframe>
+                {% endif %}
             </td>
         </tr>
         <tr>
